@@ -1,0 +1,2 @@
+const PUBLIC={inj:1877.3718,price:7.5690};
+function render(){const inj=PUBLIC.inj,price=PUBLIC.price;document.querySelector('#injTotal').textContent=inj.toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2});document.querySelector('#usdTotal').textContent='$'+(inj*price).toLocaleString('en-US',{maximumFractionDigits:0});document.querySelector('#priceLine').textContent=`INJ / USDT $${price.toFixed(4)}`;document.querySelector('#year').textContent=new Date().getFullYear()}render();
