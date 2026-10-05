@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html data-inj-page="command-center" data-inj-viewport="80" data-theme="navy" data-ui-style="elegant" lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#05090d"/>
+
+<title>Command Center · INJ Node</title>
+<script>
+try {
+  const theme = localStorage.getItem('inj_monitor_theme');
+  const style = localStorage.getItem('inj_monitor_ui_style');
+  document.documentElement.dataset.theme = ['navy','black','light','amber'].includes(theme) ? theme : 'navy';
+  document.documentElement.dataset.uiStyle = ['elegant','futuristic','ultra'].includes(style) ? style : 'elegant';
+} catch (_) {}
+</script>
+<script>
+(() => {
+  const ua = String(navigator.userAgent || '');
+  const appleTouchTablet = /Macintosh/i.test(ua) && Number(navigator.maxTouchPoints || 0) > 1;
+  const mobileDevice = /Android|iPhone|iPad|iPod|Mobile/i.test(ua) || appleTouchTablet;
+  const allowedStandalone = !mobileDevice && window.matchMedia('(min-width:1100px)').matches;
+  if (!allowedStandalone) {
+    document.documentElement.style.visibility = 'hidden';
+    window.location.replace('./index.html?command-center=pc-only');
+  }
+})();
+</script>
+<link rel="stylesheet" href="command-center.css?v=15.99.80"/>
+<script>document.addEventListener('DOMContentLoaded',()=>{const c=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();if(c)document.querySelector('meta[name="theme-color"]')?.setAttribute('content',c)},{once:true});</script>
+<link rel="stylesheet" href="viewport.css?v=15.99.80">
+<script defer src="viewport.js?v=15.99.80"></script>
+</head>
+<body>
+<main class="cc-shell" id="commandCenter">
+  <header class="cc-topbar">
+    <div class="cc-brand">
+      <button id="ccBack" class="cc-back" type="button" aria-label="Torna alla Home">×</button>
+      <svg aria-hidden="true" class="cc-logo" viewBox="0 0 48 48"><path d="M8.5 27.4A16.5 16.5 0 0 1 33.7 9.6"></path><path d="M39.5 20.6A16.5 16.5 0 0 1 14.3 38.4"></path><path d="M15 33V15l18 18V15"></path><circle cx="15" cy="15" r="2.4"></circle><circle cx="33" cy="33" r="2.4"></circle><circle cx="24" cy="24" r="2.75"></circle></svg>
+      <div class="cc-brand-copy"><strong>INJ NODE</strong><span>COMMAND CENTRE · LIVE</span></div>
+    </div>
+    <div class="cc-wallet-head">
+      <span id="ccWalletName">Wallet</span>
+      <strong id="ccWalletAddress">—</strong>
+    </div>
+    <div class="cc-live-head">
+      <span class="cc-live-badge" id="ccConnection"><i></i>ATTESA</span>
+      <time id="ccClock">--:--:--</time>
+    </div>
+  </header>
+
+  <section class="cc-main">
+    <section class="cc-now" aria-label="Situazione attuale">
+      <div class="cc-now-heading"><span>NOW</span><small>Situazione live · lettura immediata</small></div>
+      <article class="cc-now-item cc-now-market">
+        <span>INJ / USDT</span>
+        <strong id="ccLivePrice">—</strong>
+        <small id="ccChange24">— · 24H</small>
+      </article>
+      <article class="cc-now-item">
+        <span>Patrimonio</span>
+        <strong class="private" id="ccNetWorth">—</strong>
+        <small class="private" id="ccTotalInj">— INJ</small>
+      </article>
+      <article class="cc-now-item">
+        <span>P/L totale</span>
+        <strong class="private" id="ccTotalPnl">—</strong>
+        <small class="private" id="ccTotalPnlPct">—</small>
+      </article>
+      <article class="cc-now-item">
+        <span>Reward / giorno</span>
+        <strong class="private" id="ccDailyReward">—</strong>
+        <small class="private" id="ccDailyRewardUsd">—</small>
+      </article>
+      <article class="cc-now-item cc-now-signal">
+        <span>Trend timeframe</span>
+        <strong id="ccConsensus">—</strong>
+        <small>positivi / disponibili</small>
+      </article>
+    </section>
+
+    <section class="cc-market-stage">
+      <div class="cc-section-head">
+        <div>
+          <span class="cc-eyebrow">MERCATO LIVE</span>
+          <h1>Mercato</h1>
+          <p>Grafico principale con tre conferme.</p>
+        </div>
+        <div class="cc-chart-tools">
+          <label for="ccMainRange">Grafico principale</label>
+          <select id="ccMainRange">
+            <option value="m1">1 MIN</option><option value="m5">5 MIN</option><option value="m10">10 MIN</option><option selected value="h1">1 ORA</option><option value="d1">1 GIORNO</option><option value="w1">1 SETTIMANA</option>
+          </select>
+          <button id="ccLevelsButton" type="button">Livelli</button>
+          <button id="ccObserve" type="button" aria-pressed="false">Osservazione</button>
+        </div>
+      </div>
+
+      <section class="cc-charts" aria-label="Grafico principale e confronti">
+        <article class="cc-chart cc-chart-1m neutral" data-key="m1">
+          <header><button class="cc-promote" data-promote="m1" type="button" aria-label="Porta 1 MIN nel grafico principale"><strong>1 MIN</strong><small>Immediate momentum</small></button><div class="cc-chart-status"><b class="neutral" id="cc1mChange">—</b><span class="cc-chart-feed">ATTESA</span></div></header>
+          <div class="cc-chart-body"><canvas id="ccCanvas1m"></canvas><aside class="cc-scale"><span id="cc1mTop">—</span><span id="cc1mMid">—</span><span id="cc1mBottom">—</span><b id="cc1mMarker">—</b></aside></div><div class="cc-time-axis"><time></time><span></span><time></time></div>
+        </article>
+        <article class="cc-chart cc-chart-5m neutral" data-key="m5">
+          <header><button class="cc-promote" data-promote="m5" type="button" aria-label="Porta 5 MIN nel grafico principale"><strong>5 MIN</strong><small>Micro momentum</small></button><div class="cc-chart-status"><b class="neutral" id="cc5Change">—</b><span class="cc-chart-feed">ATTESA</span></div></header>
+          <div class="cc-chart-body"><canvas id="ccCanvas5m"></canvas><aside class="cc-scale"><span id="cc5Top">—</span><span id="cc5Mid">—</span><span id="cc5Bottom">—</span><b id="cc5Marker">—</b></aside></div><div class="cc-time-axis"><time></time><span></span><time></time></div>
+        </article>
+        <article class="cc-chart cc-chart-10m neutral" data-key="m10">
+          <header><button class="cc-promote" data-promote="m10" type="button" aria-label="Porta 10 MIN nel grafico principale"><strong>10 MIN</strong><small>Short trend</small></button><div class="cc-chart-status"><b class="neutral" id="cc10Change">—</b><span class="cc-chart-feed">ATTESA</span></div></header>
+          <div class="cc-chart-body"><canvas id="ccCanvas10m"></canvas><aside class="cc-scale"><span id="cc10Top">—</span><span id="cc10Mid">—</span><span id="cc10Bottom">—</span><b id="cc10Marker">—</b></aside></div><div class="cc-time-axis"><time></time><span></span><time></time></div>
+        </article>
+        <article class="cc-chart cc-chart-1h neutral" data-key="h1">
+          <header><button class="cc-promote" data-promote="h1" type="button" aria-label="Porta 1 ORA nel grafico principale"><strong>1 ORA</strong><small>Primary intraday signal</small></button><div class="cc-chart-status"><b class="neutral" id="cc1hChange">—</b><span class="cc-chart-feed">ATTESA</span></div></header>
+          <div class="cc-chart-body"><canvas id="ccCanvas1h"></canvas><aside class="cc-scale"><span id="cc1hTop">—</span><span id="cc1hMid">—</span><span id="cc1hBottom">—</span><b id="cc1hMarker">—</b></aside></div><div class="cc-time-axis"><time></time><span></span><time></time></div>
+        </article>
+        <article class="cc-chart cc-chart-1d neutral" data-key="d1">
+          <header><button class="cc-promote" data-promote="d1" type="button" aria-label="Porta 1 GIORNO nel grafico principale"><strong>1 GIORNO</strong><small>Daily structure</small></button><div class="cc-chart-status"><b class="neutral" id="cc1dChange">—</b><span class="cc-chart-feed">ATTESA</span></div></header>
+          <div class="cc-chart-body"><canvas id="ccCanvas1d"></canvas><aside class="cc-scale"><span id="cc1dTop">—</span><span id="cc1dMid">—</span><span id="cc1dBottom">—</span><b id="cc1dMarker">—</b></aside></div><div class="cc-time-axis"><time></time><span></span><time></time></div>
+        </article>
+        <article class="cc-chart cc-chart-1w neutral" data-key="w1">
+          <header><button class="cc-promote" data-promote="w1" type="button" aria-label="Porta 1 SETTIMANA nel grafico principale"><strong>1 SETTIMANA</strong><small>Weekly structure</small></button><div class="cc-chart-status"><b class="neutral" id="cc1wChange">—</b><span class="cc-chart-feed">ATTESA</span></div></header>
+          <div class="cc-chart-body"><canvas id="ccCanvas1w"></canvas><aside class="cc-scale"><span id="cc1wTop">—</span><span id="cc1wMid">—</span><span id="cc1wBottom">—</span><b id="cc1wMarker">—</b></aside></div><div class="cc-time-axis"><time></time><span></span><time></time></div>
+        </article>
+      </section>
+    </section>
+
+    <section class="cc-data-stage" aria-label="Dati operativi">
+      <div class="cc-section-head cc-data-heading"><div><span class="cc-eyebrow">OPERATIVO</span><h2>Wallet · Rendita · Rischio</h2></div></div>
+      <div class="cc-data-deck">
+        <article class="cc-panel">
+          <header class="cc-panel-title"><div><span>WALLET</span><strong>Posizione</strong></div><small>Dove sono gli INJ</small></header>
+          <dl class="cc-rows cc-rows-strong"><div><dt>Disponibile</dt><dd class="private" id="ccAvailable">—</dd></div><div><dt>In staking</dt><dd class="private" id="ccStaked">—</dd></div><div><dt>Quota in staking</dt><dd class="private" id="ccStakeRatio">—</dd></div></dl>
+        </article>
+        <article class="cc-panel">
+          <header class="cc-panel-title"><div><span>PERFORMANCE</span><strong>Movimento</strong></div><small>Prezzo vs riferimenti</small></header>
+          <dl class="cc-rows cc-rows-strong"><div><dt>Variazione 24h*</dt><dd class="private"><span id="ccDailyPnl">—</span><small id="ccDailyPnlPct">—</small></dd></div><div><dt>Prezzo medio</dt><dd class="private" id="ccAvgPrice">—</dd></div></dl>
+          <p class="cc-note">*Stima sul valore attuale del wallet, esclusi i flussi.</p>
+        </article>
+        <article class="cc-panel cc-income">
+          <header class="cc-panel-title"><div><span>RENDITA</span><strong>Staking</strong></div><small id="ccValidatorCount">— validatori</small></header>
+          <dl class="cc-rows cc-rows-strong"><div><dt>APR netto</dt><dd id="ccApr">—</dd></div><div><dt>Reward maturate</dt><dd class="private" id="ccRewards">—</dd></div></dl>
+          <div class="cc-validator-list" id="ccValidatorList" aria-label="Stato validatori"></div>
+        </article>
+        <article class="cc-panel cc-watch">
+          <header class="cc-panel-title"><div><span>MERCATO</span><strong>Range & avvisi</strong></div><button id="ccEventsButton" type="button">Eventi <b id="ccEventCount">0</b></button></header>
+          <div class="cc-range-values"><div><span>MIN 24H</span><strong id="ccLow24">—</strong><small id="ccLowDistance">—</small></div><div><span>MAX 24H</span><strong id="ccHigh24">—</strong><small id="ccHighDistance">—</small></div></div>
+          <div class="cc-range-track"><i id="ccRangeFill"></i><b id="ccRangeDot"></b></div>
+          <div class="cc-level-summary" id="ccLevelSummary">Livelli personali · non impostati</div>
+          <div class="cc-latest-event" id="ccLatestEvent">In attesa del flusso di mercato</div>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <footer class="cc-statusbar"><span id="ccFooterLive">MERCATO · ATTESA</span><span id="ccLastQuote">Ultimo prezzo —</span><span id="ccWalletState">WALLET · CACHE</span><span>Ultima sync <b id="ccLastSync">—</b></span><span id="ccFooterSystem">API · ATTESA</span></footer>
+</main>
+
+<dialog class="cc-dialog" id="ccLevelsDialog"><form id="ccLevelsForm"><header><h2>Livelli personali</h2><button aria-label="Chiudi" data-close="ccLevelsDialog" type="button">×</button></header><p>Prezzi INJ / USDT. Le soglie vengono salvate per questo wallet; lascia vuoto per rimuoverle.</p><label>Livello 1<input id="ccLevel1" inputmode="decimal" min="0.000001" placeholder="Es. 7.50" step="any" type="number"/></label><label>Livello 2<input id="ccLevel2" inputmode="decimal" min="0.000001" placeholder="Es. 10.00" step="any" type="number"/></label><p>Il prezzo medio appare sul grafico quando rientra nella scala visibile. Gli avvisi funzionano mentre il Command Centre è aperto.</p><button type="submit">Salva livelli</button></form></dialog>
+<dialog class="cc-dialog" id="ccEventsDialog"><header><h2>Eventi della sessione</h2><button aria-label="Chiudi" data-close="ccEventsDialog" type="button">×</button></header><ol id="ccEventList"><li>Nessun evento</li></ol></dialog>
+<script defer src="command-center.js?v=15.99.80"></script>
+
+<script>
+(function(){
+  function loadInjLanguage(){
+    if (window.INJ_I18N || document.querySelector('script[data-inj-i18n]')) return;
+    var s=document.createElement('script');s.src='i18n.js?v=15.99.80';s.async=true;s.dataset.injI18n='1';
+    s.onerror=function(){s.remove();};document.body.appendChild(s);
+  }
+  window.addEventListener('load',function(){window.setTimeout(loadInjLanguage,120);},{once:true});
+})();
+</script>
+</body>
+</html>

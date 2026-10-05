@@ -1,0 +1,9 @@
+{
+  "name": "INJ Node",
+  "short_name": "INJ Node",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "description": "INJ Node portfolio, staking and market monitor."
+}

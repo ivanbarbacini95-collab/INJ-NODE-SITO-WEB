@@ -1,0 +1,90 @@
+<!doctype html>
+<html data-inj-page="live-rewards" data-inj-viewport="91" lang="it" data-theme="navy">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07121b">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>INJ NODE · Live Rewards</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('inj_monitor_theme');
+      const theme = ['navy','black','light','amber'].includes(savedTheme) ? savedTheme : 'navy';
+      document.documentElement.dataset.theme = theme;
+      const themeColors = { navy:'#07121b', black:'#090b0e', light:'#f8fbff', amber:'#0a111a' };
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColors[theme]);
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="./live-rewards.css?v=16.00.3">
+  <link rel="stylesheet" href="./viewport.css?v=16.00.3">
+  <script defer src="./viewport.js?v=16.00.3"></script>
+  <script defer src="./live-rewards.js?v=16.00.3"></script>
+</head>
+<body>
+  <div class="rewards-shell">
+    <header class="rewards-header">
+      <a class="rewards-close" id="rewardsClose" href="./index.html" aria-label="Torna alla Home" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7"></path><path d="M6.5 10v9h11v-9M10 19v-5h4v5"></path></svg>
+      </a>
+      <div class="rewards-title"><span>INJ NODE</span><strong>Live Rewards</strong></div>
+      <div class="rewards-head-status"><strong id="rewardsHeaderPrice">—</strong><span class="rewards-live sync" id="rewardsLiveBadge"><i></i>LIVE</span></div>
+    </header>
+
+    <main class="rewards-main">
+      <section class="rewards-intro">
+        <div>
+          <span class="rewards-kicker">5 WALLET GESTITI</span>
+          <h1>Reward che maturano <em>in tempo reale</em></h1>
+          <p>Il primo dato è verificato on-chain; da lì i reward scorrono continuamente in base agli INJ in staking e all’APR effettivo del validator di ogni account, con riallineamento periodico alla rete. Il saldo disponibile è sempre escluso.</p>
+        </div>
+        <div class="rewards-sync-meta"><i></i><span id="rewardsUpdated">Sincronizzazione…</span></div>
+      </section>
+
+      <section class="rewards-layout">
+        <div class="rewards-list-panel">
+          <div class="rewards-list-head">
+            <div><span>WALLET</span><small>Nome · indirizzo</small></div>
+            <div><span>REWARD STAKING LIVE</span><small>Saldo wallet escluso</small></div>
+          </div>
+          <div class="rewards-list" id="rewardsList" aria-live="polite"></div>
+        </div>
+
+        <aside class="rewards-total-panel">
+          <div class="rewards-total-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+          <span class="rewards-total-label">TOTAL STAKING REWARDS · LIVE</span>
+          <div class="rewards-total-value"><strong id="rewardsTotal">—</strong><small>INJ</small></div>
+          <div class="rewards-total-fiat" id="rewardsTotalFiat">—</div>
+          <div class="reward-flow reward-flow-total reward-runway-live" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div class="rewards-total-metrics">
+            <div><span>24H</span><strong id="rewardsTotalDay">—</strong></div>
+            <div><span>STAKING TOTALE</span><strong id="rewardsTotalStaked">—</strong></div>
+            <div><span>APR MEDIO</span><strong id="rewardsApr">—</strong></div>
+            <div class="rewards-total-wallets"><span>WALLET</span><strong class="rewards-total-status"><i></i><b id="rewardsWalletStatus">0/5 LIVE</b></strong></div>
+          </div>
+        </aside>
+      </section>
+    <footer class="inj-long-page-signature" aria-label="INJ Node signature">INJ NODE · by IB</footer>
+</main>
+  </div>
+
+  <div class="reward-editor" id="rewardEditor" hidden aria-hidden="true">
+    <div class="reward-editor-backdrop" data-editor-close></div>
+    <form class="reward-editor-card" id="rewardEditorForm">
+      <span>RINOMINA WALLET</span>
+      <strong id="rewardEditorAddress">—</strong>
+      <label for="rewardEditorInput">Nome wallet</label>
+      <input id="rewardEditorInput" maxlength="28" autocomplete="off" spellcheck="false" placeholder="Es. Ledger principale">
+      <div class="reward-editor-actions">
+        <button type="button" data-editor-close>Annulla</button>
+        <button type="submit">Salva</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    (()=>{const load=()=>{if(document.querySelector('script[data-inj-i18n]'))return;const s=document.createElement('script');s.src='i18n.js?v=16.00.3';s.async=true;s.dataset.injI18n='1';document.head.appendChild(s)};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(load,0),{once:true});else setTimeout(load,0)})();
+  </script>
+</body>
+</html>

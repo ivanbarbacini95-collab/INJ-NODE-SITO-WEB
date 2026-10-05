@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+<html data-theme="navy" lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#040b1d" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="INJ Node" name="apple-mobile-web-app-title"/>
+<meta content="INJ Node — dashboard essenziale per wallet, staking e mercato Injective." name="description"/>
+<title>INJ Node</title>
+<link href="manifest.webmanifest?v=15.99.20" rel="manifest"/>
+<link href="icons/apple-touch-icon-v15.68.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="icons/apple-touch-icon-v15.68.png" rel="apple-touch-icon-precomposed" sizes="180x180"/>
+<link href="icons/favicon-32-v15.68.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="icons/favicon-64-v15.68.png" rel="icon" sizes="64x64" type="image/png"/>
+<link href="icons/icon-192-v15.68.png" rel="icon" sizes="192x192" type="image/png"/>
+<script>
+    try {
+      const savedTheme = localStorage.getItem('inj_monitor_theme');
+      document.documentElement.dataset.theme = ['navy', 'black', 'light', 'amber'].includes(savedTheme) ? savedTheme : 'navy';
+      const savedUiStyle = localStorage.getItem('inj_monitor_ui_style');
+      document.documentElement.dataset.uiStyle = ['elegant', 'futuristic', 'ultra'].includes(savedUiStyle) ? savedUiStyle : 'elegant';
+    } catch (_) {}
+  </script>
+<link href="style.css?v=15.99.73" rel="stylesheet"/>
+<style>.boot-splash,.entry-gate{display:none!important}.app-shell{opacity:1!important;transform:none!important;pointer-events:auto!important}</style></head>
+<body>
+<div aria-label="Avvio INJ Node" class="boot-splash" id="bootSplash" role="status">
+<div class="boot-splash-core">
+<svg aria-hidden="true" class="boot-ring" viewbox="0 0 220 220">
+<circle class="boot-ring-track" cx="110" cy="110" pathlength="100" r="96"></circle>
+<circle class="boot-ring-progress" cx="110" cy="110" pathlength="100" r="96"></circle>
+</svg>
+<div aria-hidden="true" class="boot-copy">
+<div class="boot-brand-symbol"><svg aria-hidden="true" class="inj-node-symbol" viewbox="0 0 48 48"><path class="inj-node-symbol-orbit inj-node-symbol-orbit-a" d="M8.5 27.4A16.5 16.5 0 0 1 33.7 9.6"></path><path class="inj-node-symbol-orbit inj-node-symbol-orbit-b" d="M39.5 20.6A16.5 16.5 0 0 1 14.3 38.4"></path><path class="inj-node-symbol-n" d="M15 33V15l18 18V15"></path><circle class="inj-node-symbol-node" cx="15" cy="15" r="2.4"></circle><circle class="inj-node-symbol-node" cx="33" cy="33" r="2.4"></circle><circle class="inj-node-symbol-node inj-node-symbol-node-soft" cx="33" cy="15" r="1.65"></circle><circle class="inj-node-symbol-core" cx="24" cy="24" r="2.75"></circle></svg></div>
+<div class="boot-wordmark">
+<strong>INJ</strong><span>Node</span>
+</div>
+<div class="boot-tagline"><span>THE FUTURE IS HERE</span></div>
+<div class="boot-percent" id="bootPercent">000%</div>
+</div>
+</div>
+</div>
+<section aria-hidden="true" aria-label="Seleziona modalità di accesso" class="entry-gate" id="entryGate">
+<div class="entry-gate-shell">
+<div class="entry-home-top">
+<div aria-hidden="true" class="entry-brand">
+<svg aria-hidden="true" class="inj-node-symbol" viewbox="0 0 48 48"><path class="inj-node-symbol-orbit inj-node-symbol-orbit-a" d="M8.5 27.4A16.5 16.5 0 0 1 33.7 9.6"></path><path class="inj-node-symbol-orbit inj-node-symbol-orbit-b" d="M39.5 20.6A16.5 16.5 0 0 1 14.3 38.4"></path><path class="inj-node-symbol-n" d="M15 33V15l18 18V15"></path><circle class="inj-node-symbol-node" cx="15" cy="15" r="2.4"></circle><circle class="inj-node-symbol-node" cx="33" cy="33" r="2.4"></circle><circle class="inj-node-symbol-node inj-node-symbol-node-soft" cx="33" cy="15" r="1.65"></circle><circle class="inj-node-symbol-core" cx="24" cy="24" r="2.75"></circle></svg>
+<div><strong>INJ</strong><span>Node</span></div>
+</div>
+<button aria-label="Apri stato rete e API" class="entry-system-pill" id="entrySystemStatusButton" type="button"><i></i><span id="entrySystemStatusText">SYSTEM · —</span><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg></button>
+</div>
+<div aria-label="Primo accesso" class="entry-onboarding" id="entryOnboarding">
+<span class="entry-onboarding-kicker">PRIMO ACCESSO</span>
+<h1>Collega il tuo wallet</h1>
+<p class="entry-onboarding-intro">Incolla il tuo indirizzo pubblico Injective per iniziare. Non servono seed phrase, chiavi private o connessioni al wallet.</p>
+<form class="entry-onboarding-form" id="entryOnboardingForm" novalidate="">
+<label for="entryWalletName">NOME WALLET</label>
+<div class="entry-onboarding-name-field">
+<input aria-label="Nome del wallet" autocomplete="off" id="entryWalletName" maxlength="28" name="entryWalletName" placeholder="Es. Ledger principale" spellcheck="false" type="text"/>
+</div>
+<label for="entryWalletInput">INDIRIZZO INJECTIVE</label>
+<div class="entry-onboarding-field">
+<input aria-describedby="entryWalletStatus" autocapitalize="none" autocomplete="off" id="entryWalletInput" inputmode="text" name="entryWallet" placeholder="inj1…" spellcheck="false" type="text"/>
+<button id="entryWalletContinue" type="submit">
+<span id="entryWalletContinueText">Continua</span>
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg>
+</button>
+</div>
+<small aria-live="polite" class="entry-onboarding-status" id="entryWalletStatus">L’indirizzo rimane salvato solo su questo dispositivo.</small>
+</form>
+</div>
+<div class="header-menu entry-home-menu" id="headerMenu">
+<button aria-controls="headerMenuPanel" aria-expanded="false" aria-label="Apri menu" class="header-main-button" id="entryMenuButton" title="Menu" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+</button>
+<div aria-hidden="true" class="header-menu-backdrop" id="headerMenuBackdrop"></div>
+<div aria-label="Control Center INJ Node" class="header-menu-panel" id="headerMenuPanel">
+<div class="menu-control-head">
+<div class="menu-control-brand">
+<svg aria-hidden="true" class="menu-node-symbol" viewbox="0 0 48 48"><path class="menu-node-orbit" d="M8.5 27.4A16.5 16.5 0 0 1 33.7 9.6M39.5 20.6A16.5 16.5 0 0 1 14.3 38.4"></path><path class="menu-node-n" d="M15 33V15l18 18V15"></path><circle cx="15" cy="15" r="2.4"></circle><circle cx="33" cy="33" r="2.4"></circle><circle cx="24" cy="24" r="2.75"></circle></svg>
+<div><span class="menu-eyebrow">INJ NODE</span><strong class="menu-control-title">Control Center</strong></div>
+</div>
+<button aria-label="Chiudi menu" class="menu-close-button" id="menuCloseButton" title="Chiudi" type="button">×</button>
+</div>
+<div class="menu-wallet-hero">
+<div class="menu-control-wallet">
+<span class="menu-wallet-kicker">WALLET ATTIVO</span>
+<strong id="menuWalletLabel">Wallet</strong>
+<small id="menuWalletAddress">Nessun wallet attivo</small>
+</div>
+<span aria-label="Dati live" class="menu-live-chip"><i></i>LIVE</span>
+</div>
+<section aria-label="Destinazioni principali" class="menu-section menu-destinations">
+<div class="menu-section-heading"><span>Azioni rapide</span><small>Wallet e strumenti</small></div>
+<div class="menu-quick-grid">
+<button aria-label="Gestisci wallet" class="menu-action menu-tile" id="manageWalletsMenuButton" title="Gestisci wallet" type="button">
+<span aria-hidden="true" class="menu-action-icon"><svg viewbox="0 0 24 24"><path d="M4 7.5h16v10H4z"></path><path d="M7 7.5V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.5"></path><path d="M8 12h5"></path><circle cx="17" cy="12.5" r="1.2"></circle></svg></span>
+<span class="menu-action-copy"><strong>Wallet</strong><small>Gestisci account</small></span>
+</button>
+<button aria-label="Aggiorna tutti i dati" class="menu-action menu-tile" id="refreshMenuButton" title="Aggiorna dati" type="button">
+<span aria-hidden="true" class="menu-action-icon"><svg viewbox="0 0 24 24"><path d="M20 6v5h-5M4 18v-5h5M18.4 9A7 7 0 0 0 6.8 6.4L4 11m16 2-2.8 4.6A7 7 0 0 1 5.6 15"></path></svg></span>
+<span class="menu-action-copy"><strong>Aggiorna</strong><small>Sincronizza dati</small></span>
+<span aria-hidden="true" class="menu-action-state refresh-menu-state"></span>
+</button>
+</div>
+</section>
+<section aria-label="Impostazioni wallet" class="menu-section">
+<div class="menu-section-heading"><span>Wallet</span><small>Dati personali</small></div>
+<div class="menu-average-price" id="averagePriceControl">
+<span aria-hidden="true" class="menu-action-icon"><svg viewbox="0 0 24 24"><path d="M5 7h14v10H5z"></path><path d="M8 10h8M8 14h5"></path><path d="M12 4v3M12 17v3"></path></svg></span>
+<label class="menu-average-copy" for="averageBuyPrice">
+<strong>Prezzo medio INJ</strong>
+<small>Usato per calcolare il PnL</small>
+</label>
+<div class="menu-average-input"><span>$</span><input aria-label="Prezzo medio di acquisto INJ in dollari" id="averageBuyPrice" inputmode="decimal" min="0" placeholder="0,00" step="0.0001" type="number"/></div>
+</div>
+</section>
+<section aria-label="Preferenze" class="menu-section">
+<div class="menu-section-heading"><span>Preferenze</span><small>Personalizza INJ Node</small></div>
+<div class="menu-settings-grid">
+<button aria-label="Cambia valuta" class="menu-action menu-setting" id="currencyButton" title="Cambia valuta" type="button">
+<span aria-hidden="true" class="menu-action-icon"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M15.5 8.7c-.8-.6-1.9-.9-3.2-.9-1.8 0-3 .8-3 2 0 3.2 6.1 1.5 6.1 4.5 0 1.2-1.2 2-3.1 2-1.5 0-2.7-.4-3.7-1.1M12 5.8v12.4"></path></svg></span>
+<span class="menu-action-copy"><strong>Valuta</strong><small>USD / EUR</small></span>
+<span class="menu-action-value" id="currencyValue">$</span>
+</button>
+<button aria-label="Nascondi valori" class="menu-action menu-setting" id="privacyButton" title="Privacy" type="button">
+<span aria-hidden="true" class="menu-action-icon"><svg viewbox="0 0 24 24"><path d="M2.8 12s3.4-5.5 9.2-5.5 9.2 5.5 9.2 5.5-3.4 5.5-9.2 5.5S2.8 12 2.8 12Z"></path><circle cx="12" cy="12" r="2.4"></circle></svg></span>
+<span class="menu-action-copy"><strong>Privacy</strong><small>Nascondi valori</small></span>
+<span aria-hidden="true" class="menu-action-state"></span>
+</button>
+<div class="theme-control menu-theme-control" id="themeControl">
+<button aria-controls="themePicker" aria-expanded="false" aria-label="Scegli tema" class="menu-action menu-setting" id="themeButton" title="Scegli tema" type="button">
+<span aria-hidden="true" class="menu-action-icon"><svg viewbox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 1 0 0 17h1.1a1.7 1.7 0 0 0 0-3.4h-.8a1.8 1.8 0 0 1 0-3.6H15a5.5 5.5 0 0 0 0-11h-3Z"></path><circle cx="8" cy="9" r=".7"></circle><circle cx="11" cy="6.8" r=".7"></circle><circle cx="7.2" cy="13" r=".7"></circle></svg></span>
+<span class="menu-action-copy"><strong>Tema</strong><small>Aurora / Nero / Chiaro / Midnight Ember</small></span>
+<svg aria-hidden="true" class="menu-action-chevron" viewbox="0 0 24 24"><path d="m8 10 4 4 4-4"></path></svg>
+</button>
+<div aria-label="Scegli tema" class="theme-picker" id="themePicker" role="group">
+<button data-theme-choice="navy" type="button"><i class="theme-swatch navy"></i><span>Aurora</span></button>
+<button data-theme-choice="black" type="button"><i class="theme-swatch black"></i><span>Nero</span></button>
+<button data-theme-choice="light" type="button"><i class="theme-swatch light"></i><span>Chiaro</span></button>
+<button data-theme-choice="amber" type="button"><i class="theme-swatch amber"></i><span>Midnight Ember</span></button>
+</div>
+</div>
+</div>
+</section>
+<button aria-label="Apri stato rete e API" class="menu-action menu-system-card" id="systemStatusMenuButton" title="Stato sistema" type="button">
+<span aria-hidden="true" class="menu-action-icon"><svg viewbox="0 0 24 24"><path d="M4 16.5V19h16v-2.5"></path><path d="M6 14a8.5 8.5 0 0 1 12 0"></path><path d="M9 11a4.3 4.3 0 0 1 6 0"></path><circle cx="12" cy="15.5" r="1.2"></circle></svg></span>
+<span class="menu-action-copy"><strong>Stato rete &amp; API</strong><small id="systemStatusMenuHint">Verifica servizi live</small></span>
+<span aria-hidden="true" class="menu-system-dot" id="systemStatusMenuDot"></span>
+<svg aria-hidden="true" class="menu-action-chevron menu-action-forward" viewbox="0 0 24 24"><path d="m10 7 5 5-5 5"></path></svg>
+</button>
+<button aria-label="Installa INJ Node" class="menu-action menu-install-card" id="installAppMenuButton" title="Installa app" type="button">
+<span aria-hidden="true" class="menu-action-icon"><svg viewbox="0 0 24 24"><path d="M12 3v11"></path><path d="m8 10 4 4 4-4"></path><path d="M5 17v3h14v-3"></path></svg></span>
+<span class="menu-action-copy"><strong>Installa INJ Node</strong><small id="installAppHint">Aggiungi l’app al dispositivo</small></span>
+<svg aria-hidden="true" class="menu-action-chevron menu-action-forward" viewbox="0 0 24 24"><path d="m10 7 5 5-5 5"></path></svg>
+</button>
+<div class="menu-meta">
+<span>Wallet</span><b id="lastUpdate">—</b>
+<span>Dati</span><b id="menuDataFreshness">In attesa…</b>
+</div>
+</div>
+</div>
+<span class="entry-kicker">CONTROL CENTER</span>
+<h1>Il tuo spazio Injective.</h1>
+<p class="entry-intro">Scegli il wallet, controlla i dati essenziali e apri la vista che ti serve.</p>
+<div class="entry-wallet-section">
+<div class="entry-wallet-heading">
+<span>ACCOUNT SELEZIONATO</span>
+<small id="entryWalletHint">Seleziona un wallet</small>
+</div>
+<div aria-label="Wallet salvati" class="entry-wallets" id="entryWallets" role="listbox"></div>
+<div aria-label="Posizione nel carosello wallet" class="entry-wallet-pagination" id="entryWalletPagination">
+<span aria-label="Vai direttamente a un wallet" class="entry-wallet-dots" id="entryWalletDots"></span>
+<strong id="entryWalletPosition">1 / 1</strong>
+</div>
+</div>
+<section aria-label="Riepilogo account selezionato" class="entry-overview" id="entryOverview">
+<div class="entry-overview-head">
+<div><span>WALLET ATTIVO</span><strong id="entryOverviewWallet">Wallet</strong></div>
+<span class="entry-overview-actions">
+<button aria-label="Nascondi valori saldo" aria-pressed="false" class="entry-privacy-toggle" id="entryPrivacyButton" title="Privacy" type="button">
+<svg aria-hidden="true" class="entry-privacy-eye eye-open" viewbox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.7"></circle></svg>
+<svg aria-hidden="true" class="entry-privacy-eye eye-closed" viewbox="0 0 24 24"><path d="M3 3l18 18"></path><path d="M10.2 6.2A10.6 10.6 0 0 1 12 6c6 0 9.5 6 9.5 6a17.1 17.1 0 0 1-3 3.5M13.8 17.8A10.7 10.7 0 0 1 12 18c-6 0-9.5-6-9.5-6a17.2 17.2 0 0 1 3-3.5"></path><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"></path></svg>
+</button>
+<span class="entry-overview-live"><i></i> LIVE</span>
+</span>
+</div>
+<div class="entry-overview-main">
+<div class="entry-overview-worth private">
+<span>VALORE ACCOUNT</span>
+<strong id="entryWalletWorth">—</strong>
+<small id="entryWalletTotal">—</small>
+</div>
+<div class="entry-market-mini">
+<span>INJ / USDT</span>
+<strong id="entryMarketPrice">—</strong>
+<small class="neutral" id="entryMarketChange">— · 24H</small>
+</div>
+</div>
+<div class="entry-overview-stats private">
+<div><span>STAKING</span><strong id="entryWalletStaked">—</strong></div>
+<div><span>REWARD</span><strong id="entryWalletRewards">—</strong></div>
+<div><span>AGGIORNATO</span><strong id="entryWalletFreshness">—</strong></div>
+</div>
+</section>
+<section aria-label="Price INJ USDT oggi" class="entry-insights entry-price-card" id="entryInsights">
+<div class="entry-insights-head">
+<div>
+<span>PRICE</span>
+<small>INJ / USDT · OGGI</small>
+</div>
+<span class="entry-insights-live" id="entrySparkStatus"><i></i> LIVE</span>
+</div>
+<div class="entry-sparkline entry-price-chart">
+<div aria-label="Grafico INJ USDT di oggi. Clicca e trascina per leggere il prezzo lungo la curva." class="entry-spark-stage" id="entrySparkStage" role="img" tabindex="0">
+<svg aria-hidden="true" focusable="false" preserveaspectratio="none" viewbox="0 0 320 150">
+<path class="entry-spark-area" d="" id="entrySparkArea"></path>
+<path class="entry-spark-path" d="" id="entrySparkPath"></path>
+</svg>
+<span aria-hidden="true" class="entry-spark-live-dot" id="entrySparkLiveDot"></span>
+<span aria-hidden="true" class="entry-spark-live-label" hidden="" id="entrySparkLiveLabel">—</span>
+<span aria-hidden="true" class="entry-spark-cursor" hidden="" id="entrySparkCursor"><i></i></span>
+<span aria-live="polite" class="entry-spark-tooltip" hidden="" id="entrySparkTooltip"><strong>—</strong><small>—</small></span>
+</div>
+<div class="entry-price-timebar"><span>00:00</span><span>24:00</span></div>
+</div>
+<div class="entry-price-pnl private">
+<div><span>P/L REAL TIME</span><small>Dalle 00:00 · wallet selezionato</small></div>
+<strong class="neutral" id="entryInsightPnl">—</strong>
+</div>
+</section>
+<section aria-label="Metriche rapide del wallet selezionato" class="entry-desktop-metrics" id="entryDesktopMetrics">
+<article class="entry-desktop-metric">
+<span>DISPONIBILE</span>
+<strong class="private" id="entryDesktopAvailable">—</strong>
+<small>INJ liquidi</small>
+</article>
+<article class="entry-desktop-metric">
+<span>STAKING RATIO</span>
+<strong class="private" id="entryDesktopStakeRatio">—</strong>
+<small class="private" id="entryDesktopStakeMeta">—</small>
+</article>
+<article class="entry-desktop-metric">
+<span>REWARD / GIORNO</span>
+<strong class="private" id="entryDesktopDailyReward">—</strong>
+<small class="private" id="entryDesktopDailyRewardValue">—</small>
+</article>
+<article class="entry-desktop-metric">
+<span>APR NETTO</span>
+<strong id="entryDesktopApr">—</strong>
+<small>Wallet selezionato</small>
+</article>
+</section>
+<div class="entry-actions">
+<button class="entry-action entry-action-primary" id="entryDashboardButton" type="button">
+<span aria-hidden="true" class="entry-action-icon"><svg viewbox="0 0 24 24"><rect height="6" rx="1" width="6" x="4" y="4"></rect><rect height="6" rx="1" width="6" x="14" y="4"></rect><rect height="6" rx="1" width="6" x="4" y="14"></rect><rect height="6" rx="1" width="6" x="14" y="14"></rect></svg></span>
+<span><strong>Dashboard</strong><small>Portfolio · staking · analytics</small></span>
+<svg aria-hidden="true" class="entry-action-arrow" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg>
+</button>
+<button class="entry-action" id="entryLiveButton" type="button">
+<span aria-hidden="true" class="entry-action-icon"><svg viewbox="0 0 24 24"><path d="M4 7h16v10H4z"></path><path d="M8 20h8M12 17v3"></path><path d="M8 12h2.2l1.3-3 2.1 6 1.4-3H18"></path></svg></span>
+<span><strong>Live View</strong><small>Prezzo · patrimonio · reward live</small></span>
+<svg aria-hidden="true" class="entry-action-arrow" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg>
+</button>
+<button class="entry-action entry-action-pulse" id="entryPulseButton" type="button">
+<span aria-hidden="true" class="entry-action-icon"><svg viewbox="0 0 24 24"><path d="M4 12h16"></path><path d="M7 12V7M7 12v4M12 12V4M12 12v7M17 12V8M17 12v6"></path><rect height="7" rx="1" width="2.4" x="5.8" y="8"></rect><rect height="11" rx="1" width="2.4" x="10.8" y="6"></rect><rect height="7" rx="1" width="2.4" x="15.8" y="9"></rect></svg></span>
+<span><strong>Pulse View</strong><small>Price · Daily P/L · Reward</small></span>
+<svg aria-hidden="true" class="entry-action-arrow" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg>
+</button>
+<button class="entry-action entry-action-livecharts" id="entryLiveChartsButton" type="button">
+<span aria-hidden="true" class="entry-action-icon"><svg viewbox="0 0 24 24"><path d="M4 18V6"></path><path d="M4 18h16"></path><path d="m6.5 14 3-3.5 2.8 2.2 4.6-6.2 1.8 1.7"></path><circle cx="18.8" cy="8.2" r="1.2"></circle></svg></span>
+<span><strong>Live Charts</strong><small>1 min · 5 min · 15 min · 1H · 4H · 1D · 1S · 1M · 1Y · ALL</small></span>
+<svg aria-hidden="true" class="entry-action-arrow" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg>
+</button>
+<button class="entry-action entry-action-orderbook" id="entryOrderBookButton" type="button">
+<span aria-hidden="true" class="entry-action-icon"><svg viewbox="0 0 24 24"><path d="M4 6h7M4 10h11M4 14h16M4 18h9"></path><path d="M18 5v6M15 8l3 3 3-3"></path></svg></span>
+<span><strong>Order Book</strong><small>Bid · Ask · profondità · total $/€</small></span>
+<svg aria-hidden="true" class="entry-action-arrow" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg>
+</button>
+<button class="entry-action entry-action-commandcenter" id="entryCommandCenterButton" type="button">
+<span aria-hidden="true" class="entry-action-icon"><svg viewbox="0 0 24 24"><rect height="13" rx="2" width="18" x="3" y="4"></rect><path d="M7 20h10M12 17v3"></path><path d="M6.5 12h2.5l1.5-4 2.4 6 1.6-3h3"></path></svg></span>
+<span><strong>Command Center</strong><small>Monitor · portfolio · charts · staking · pulse</small></span>
+<svg aria-hidden="true" class="entry-action-arrow" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg>
+</button>
+</div>
+<small class="entry-note" id="entryNote">Wallet e preferenze restano solo su questo dispositivo.</small>
+</div>
+</section>
+<div class="app-shell">
+    <header class="topbar">
+      <button class="header-main-button dashboard-home-button" id="dashboardHomeButton" type="button" aria-label="Torna alla Home" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7"/><path d="M6.5 10v9h11v-9M10 19v-5h4v5"/></svg>
+      </button>
+
+      <a class="brand header-title" href="#top" aria-label="INJ Node, torna in alto">
+        <svg class="inj-node-symbol" viewBox="0 0 48 48" aria-hidden="true"><path class="inj-node-symbol-orbit inj-node-symbol-orbit-a" d="M8.5 27.4A16.5 16.5 0 0 1 33.7 9.6"/><path class="inj-node-symbol-orbit inj-node-symbol-orbit-b" d="M39.5 20.6A16.5 16.5 0 0 1 14.3 38.4"/><path class="inj-node-symbol-n" d="M15 33V15l18 18V15"/><circle class="inj-node-symbol-node" cx="15" cy="15" r="2.4"/><circle class="inj-node-symbol-node" cx="33" cy="33" r="2.4"/><circle class="inj-node-symbol-node inj-node-symbol-node-soft" cx="33" cy="15" r="1.65"/><circle class="inj-node-symbol-core" cx="24" cy="24" r="2.75"/></svg>
+        <span class="header-wordmark"><strong>INJ</strong><span>Node</span></span>
+      </a>
+
+      <div class="header-right" id="dashboardHeaderActions">
+        <div class="connection header-status-dot" id="connectionStatus" role="status" aria-live="polite" title="Stato connessione">
+          <i></i><span id="statusText">Connessione…</span>
+        </div>
+        <span class="data-freshness waiting" id="dataFreshness" title="Freschezza dati live">LIVE · —</span>
+        <button class="header-main-button chart-launch-button" id="chartButton" type="button" aria-label="Apri grafico Injective" aria-haspopup="dialog" aria-controls="chartDialog" title="Grafico INJ">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18V6"/><path d="M4 18h16"/><path d="m7 14 3-4 3 2 4-6"/><path d="M17 6h2v2"/></svg>
+        </button>
+        <div class="header-search" id="headerSearch">
+          <button class="header-main-button" id="searchButton" type="button" aria-label="Apri ricerca wallet" aria-expanded="false" aria-controls="searchPanel" title="Cerca o aggiungi wallet">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+          </button>
+          <form class="search-panel" id="addressForm" aria-label="Aggiungi o apri wallet">
+            <div class="search-panel-fields">
+              <input id="walletNameInput" name="walletName" maxlength="28" autocomplete="off" spellcheck="false" placeholder="Nome wallet" aria-label="Nome del wallet">
+              <input id="addressInput" name="address" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="inj1…" aria-label="Indirizzo wallet Injective">
+            </div>
+            <button id="loadButton" type="submit">Apri</button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="wallet-dock" aria-label="Controllo account">
+        <div class="saved-wallets">
+          <div class="wallet-dock-title">
+            <span>Account</span>
+            <strong id="savedWalletCount">0 salvati</strong>
+            <small>Un solo pannello per tutti i wallet</small>
+          </div>
+          <div class="wallet-mini-strip" id="walletCards" aria-label="Wallet salvati"></div>
+
+        </div>
+      </section>
+
+      <section class="aggregate-strip" id="aggregateSection" hidden aria-label="Totale di tutti i wallet" role="button" tabindex="0" aria-expanded="true" title="Mostra o nascondi il totale multi-wallet">
+        <div class="aggregate-heading">
+          <span>Totale multi-wallet</span>
+          <small id="aggregateStatus">Sincronizzazione…</small>
+          <span class="aggregate-chevron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m7 9 5 5 5-5"/></svg></span>
+        </div>
+        <div class="aggregate-metric aggregate-primary"><span>Patrimonio</span><strong class="private" id="aggregateNetWorth">—</strong></div>
+        <div class="aggregate-metric"><span>Totale</span><strong class="private" id="aggregateTotalInj">—</strong></div>
+        <div class="aggregate-metric"><span>Staking</span><strong class="private" id="aggregateStaked">—</strong></div>
+        <div class="aggregate-metric"><span>Reward</span><strong class="private" id="aggregateRewards">—</strong></div>
+      </section>
+
+
+      <section class="overview-grid" id="accountDetail" aria-label="Riepilogo Injective">
+        <article class="data-card market-card" id="marketCard">
+          <div class="card-label-row">
+            <span class="card-label">INJ / USDT</span>
+            <span class="live-tag"><i></i>LIVE</span>
+          </div>
+          <div class="market-value-row">
+            <strong class="hero-number" id="marketPrice">$—</strong>
+            <div class="market-performance">
+              <span class="market-change neutral" id="marketChange">—</span>
+              <small id="marketChangeAmount">— USDT</small>
+            </div>
+          </div>
+          <div class="market-range">
+            <span>Min 24h <b id="dayLow">—</b></span>
+            <span>Max 24h <b id="dayHigh">—</b></span>
+          </div>
+
+          <button class="timeframe-collapse-toggle" id="marketTimeframeToggle" type="button" aria-expanded="true" aria-controls="marketTimeframesPanel" title="Mostra o nascondi i timeframe del prezzo">
+            <span><strong>Timeframe prezzo</strong><small>Min · Apertura · Max</small></span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5"/></svg>
+          </button>
+          <div class="market-timeframes timeframe-panel" id="marketTimeframesPanel" aria-label="Range prezzo per timeframe">
+            <div class="market-tf neutral" id="tf1dRow">
+              <div class="market-tf-meta">
+                <strong>1D</strong>
+                <span class="market-tf-range-values">
+                  <span><small>Min</small><b id="tf1dMin">—</b></span>
+                  <span class="tf-open-value"><small>Apertura</small><b id="tf1dOpen">—</b></span>
+                  <span><small>Max</small><b id="tf1dMax">—</b></span>
+                </span>
+                <em id="tf1dChange">—</em>
+              </div>
+              <div class="market-tf-track" id="tf1dTrack" aria-hidden="true"><span class="market-tf-fill"></span><span class="market-tf-open-marker"></span><span class="market-tf-dot"></span></div>
+            </div>
+
+            <div class="market-tf neutral" id="tf1mRow">
+              <div class="market-tf-meta">
+                <strong>1M</strong>
+                <span class="market-tf-range-values">
+                  <span><small>Min</small><b id="tf1mMin">—</b></span>
+                  <span class="tf-open-value"><small>Apertura</small><b id="tf1mOpen">—</b></span>
+                  <span><small>Max</small><b id="tf1mMax">—</b></span>
+                </span>
+                <em id="tf1mChange">—</em>
+              </div>
+              <div class="market-tf-track" id="tf1mTrack" aria-hidden="true"><span class="market-tf-fill"></span><span class="market-tf-open-marker"></span><span class="market-tf-dot"></span></div>
+            </div>
+
+            <div class="market-tf neutral" id="tf1yRow">
+              <div class="market-tf-meta">
+                <strong>1Y</strong>
+                <span class="market-tf-range-values">
+                  <span><small>Min</small><b id="tf1yMin">—</b></span>
+                  <span class="tf-open-value"><small>Apertura</small><b id="tf1yOpen">—</b></span>
+                  <span><small>Max</small><b id="tf1yMax">—</b></span>
+                </span>
+                <em id="tf1yChange">—</em>
+              </div>
+              <div class="market-tf-track" id="tf1yTrack" aria-hidden="true"><span class="market-tf-fill"></span><span class="market-tf-open-marker"></span><span class="market-tf-dot"></span></div>
+            </div>
+
+            <div class="market-tf neutral" id="tfAllRow" title="Dal primo storico disponibile della coppia INJ/USDT">
+              <div class="market-tf-meta">
+                <strong>ALL</strong>
+                <span class="market-tf-range-values">
+                  <span><small>Min</small><b id="tfAllMin">—</b></span>
+                  <span class="tf-open-value"><small>Apertura</small><b id="tfAllOpen">—</b></span>
+                  <span><small>Max</small><b id="tfAllMax">—</b></span>
+                </span>
+                <em id="tfAllChange">—</em>
+              </div>
+              <div class="market-tf-track" id="tfAllTrack" aria-hidden="true"><span class="market-tf-fill"></span><span class="market-tf-open-marker"></span><span class="market-tf-dot"></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="data-card worth-card" id="worthCard">
+          <div class="card-label-row">
+            <span class="card-label">Patrimonio account</span>
+            <span class="wallet-state" id="walletState">Wallet non caricato</span>
+          </div>
+          <strong class="hero-number private" id="netWorthUsd">—</strong>
+          <span class="hero-secondary private" id="netWorthInj">0,0000 INJ</span>
+          <div class="worth-performance-stack">
+            <span class="worth-change neutral private" id="netWorthChange24h">Variazione 24h —</span>
+            <span class="worth-change neutral private" id="netWorthPnl">PnL totale —</span>
+          </div>
+          <div class="allocation" aria-label="Distribuzione patrimonio"><i id="allocationBar"></i></div>
+          <div class="allocation-labels">
+            <span><i class="dot staked"></i>Staking <b id="stakedShare">0%</b></span>
+            <span><i class="dot liquid"></i>Liquido <b id="liquidShare">0%</b></span>
+          </div>
+
+        </article>
+      </section>
+
+      <section class="metrics-grid" aria-label="Dati principali del wallet">
+        <article class="data-card metric-card available-card" id="availableCard">
+          <span class="card-label">Disponibile</span>
+          <strong class="metric-value private" id="availableInj">0,0000 INJ</strong>
+          <small class="private" id="availableUsd">—</small>
+        </article>
+        <article class="data-card metric-card total-owned-card" id="ownedTotalCard">
+          <div class="owned-total-main">
+            <span class="card-label">Totale posseduto</span>
+            <strong class="metric-value private" id="ownedTotalInj">0,0000 INJ</strong>
+            <small class="private" id="ownedTotalUsd">—</small>
+          </div>
+          <div class="owned-total-difference" aria-label="Differenza tra totale posseduto e staking">
+            <span class="owned-total-plus" aria-hidden="true">+</span>
+            <strong class="private" id="ownedVsStakedInj">0,0000 INJ</strong>
+          </div>
+        </article>
+        <article class="data-card metric-card" id="stakedCard">
+          <span class="card-label">In staking</span>
+          <strong class="metric-value private" id="stakedInj">0,0000 INJ</strong>
+          <small class="private" id="stakedUsd">—</small>
+        </article>
+        <article class="data-card metric-card" id="rewardsCard">
+          <span class="card-label">Reward maturate</span>
+          <strong class="metric-value private" id="rewardsInj">0,0000 INJ</strong>
+          <small class="private" id="rewardsUsd">—</small>
+        </article>
+        <article class="data-card metric-card apr-card" id="aprCard">
+          <span class="card-label">APR netto personale</span>
+          <strong class="metric-value" id="aprValue">—</strong>
+        </article>
+      </section>
+
+      <section class="analytics-grid" aria-label="Analytics staking">
+        <article class="data-card reward-tracker-card tracker-card" id="yieldCard">
+          <div class="section-heading reward-heading">
+            <button class="tracker-collapse-trigger" id="rewardTrackerToggle" type="button" aria-expanded="true" aria-controls="rewardTrackerPanel" title="Mostra o nascondi i dati Reward Tracker">
+              <span><span class="card-label">Reward tracker</span><h2>Velocità di produzione</h2></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5"/></svg>
+            </button>
+            <div class="reward-heading-tools">
+              <label class="reward-sim-control" id="rewardSimControl" title="Simula il controvalore dei reward usando un prezzo INJ ipotetico">
+                <span>USD</span>
+                <input id="rewardSimPrice" type="number" min="0" step="1" inputmode="decimal" autocomplete="off" placeholder="Prezzo INJ" aria-label="Prezzo INJ da simulare in dollari">
+              </label>
+              <span class="formula-pill" id="rewardModePill">LIVE</span>
+            </div>
+          </div>
+          <div class="tracker-panel" id="rewardTrackerPanel">
+            <div class="reward-rate-grid">
+              <div><span>1 ora</span><strong class="private" id="hourlyEstimate">—</strong><small class="private" id="hourlyUsd">—</small></div>
+              <div><span>1 giorno</span><strong class="private" id="dailyEstimate">—</strong><small class="private" id="dailyUsd">—</small></div>
+              <div><span>1 settimana</span><strong class="private" id="weeklyEstimate">—</strong><small class="private" id="weeklyUsd">—</small></div>
+              <div><span>30 giorni</span><strong class="private" id="monthlyEstimate">—</strong><small class="private" id="monthlyUsd">—</small></div>
+              <div><span>1 anno</span><strong class="private" id="yearlyEstimate">—</strong><small class="private" id="yearlyUsd">—</small></div>
+            </div>
+            <div class="milestone-block">
+              <div><span id="rewardMilestoneHeading">Prossimo livello</span><strong id="rewardMilestoneLabel">—</strong><small class="private" id="rewardMilestoneMissing">—</small></div>
+              <div class="progress-track"><i id="rewardMilestoneBar"></i></div>
+            </div>
+            <div class="milestone-block reward-auto-target reward-claim-ladder" id="rewardAutoTarget" aria-label="Avanzamento reward maturati del wallet selezionato">
+              <div class="reward-auto-target-head">
+                <span>Accumulo reward · wallet attivo</span>
+                <strong id="rewardAutoTargetLabel">→ 0,001 INJ</strong>
+                <small class="private" id="rewardAutoTargetEta">—</small>
+              </div>
+              <div class="reward-claim-scale" aria-hidden="true">
+                <span id="rewardAutoTargetBase">0</span>
+                <span id="rewardAutoTargetGoal">0,001 INJ</span>
+              </div>
+              <div class="progress-track reward-auto-target-track reward-claim-track">
+                <i id="rewardAutoTargetBar"></i><b id="rewardAutoTargetDot" aria-hidden="true"></b>
+              </div>
+              <div class="reward-auto-target-meta">
+                <span>Reward ora <b class="private" id="rewardAutoTargetCurrent">—</b></span>
+                <span>Mancano <b class="private" id="rewardAutoTargetMissing">—</b></span>
+                <span>Avanzamento <b id="rewardAutoTargetProgress">0%</b></span>
+              </div>
+            </div>
+            <p class="method-note" id="aprMethod">La stima usa solo gli INJ effettivamente delegati dall’indirizzo, con commissioni e stato di ciascun validator.</p>
+          </div>
+        </article>
+
+        <article class="data-card target-card tracker-card" id="targetCard">
+          <div class="section-heading">
+            <button class="tracker-collapse-trigger" id="targetTrackerToggle" type="button" aria-expanded="true" aria-controls="targetTrackerPanel" title="Mostra o nascondi i dati Target Tracker">
+              <span><span class="card-label">Target tracker</span><h2>Prossimo obiettivo INJ</h2></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5"/></svg>
+            </button>
+            <label class="target-input-label">Target <input id="targetInput" type="number" min="0.001" step="0.001" inputmode="decimal" aria-label="Target quantità INJ"></label>
+          </div>
+          <div class="tracker-panel" id="targetTrackerPanel">
+            <div class="target-progress-head">
+              <strong class="target-progress-copy private" id="targetProgressCopy">—</strong>
+              <span class="target-live-badge"><i></i>LIVE</span>
+            </div>
+            <div class="target-progress target-progress-live"><i id="targetProgressBar"></i><b id="targetProgressDot" aria-hidden="true"></b></div>
+            <div class="target-live-missing">
+              <span>Mancano al target</span>
+              <strong class="private" id="targetMissing">—</strong>
+            </div>
+            <div class="target-stats target-stats-compact">
+              <div><span>Completato</span><strong id="targetPercent">—</strong></div>
+              <div><span>Stima raggiungimento</span><strong id="targetEta">—</strong></div>
+            </div>
+            <p class="method-note">La linea segue il wallet selezionato in tempo reale: tra un aggiornamento blockchain e l’altro avanza con la produzione staking stimata e si riallinea automaticamente ai dati reali.</p>
+          </div>
+        </article>
+
+        
+        
+        <article class="data-card validator-card span-2" id="validatorCard">
+          <div class="section-heading">
+            <div><span class="card-label">Delegazioni attive</span><h2>Validator</h2></div>
+            <span class="count-pill" id="validatorCount">0</span>
+          </div>
+          <div class="validator-list" id="validatorList">
+            <div class="empty-state">Carica un wallet per vedere dove sono delegati gli INJ.</div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer><span>INJ Node <b>v15.99.5</b></span><span id="endpointLabel">Rete Injective</span></footer>
+  </div>
+
+  <dialog class="wallet-dialog" id="walletDialog">
+<div class="dialog-heading">
+<div><span class="card-label">Wallet salvati</span><h2>Gestisci indirizzi</h2></div>
+<button aria-label="Chiudi" class="dialog-close" id="closeWalletDialog" type="button">×</button>
+</div>
+<p>Assegna un nome, apri o rimuovi gli indirizzi salvati su questo dispositivo.</p>
+<div class="wallet-manager-list" id="walletManagerList"></div>
+</dialog>
+<dialog aria-label="Stato rete e API INJ Node" class="system-status-dialog" id="systemStatusDialog">
+<div class="system-status-shell">
+<header class="system-status-header">
+<div class="system-status-brand"><svg aria-hidden="true" class="inj-node-symbol" viewbox="0 0 48 48"><path class="inj-node-symbol-orbit inj-node-symbol-orbit-a" d="M8.5 27.4A16.5 16.5 0 0 1 33.7 9.6"></path><path class="inj-node-symbol-orbit inj-node-symbol-orbit-b" d="M39.5 20.6A16.5 16.5 0 0 1 14.3 38.4"></path><path class="inj-node-symbol-n" d="M15 33V15l18 18V15"></path><circle class="inj-node-symbol-node" cx="15" cy="15" r="2.4"></circle><circle class="inj-node-symbol-node" cx="33" cy="33" r="2.4"></circle><circle class="inj-node-symbol-node inj-node-symbol-node-soft" cx="33" cy="15" r="1.65"></circle><circle class="inj-node-symbol-core" cx="24" cy="24" r="2.75"></circle></svg><div><span>INJ NODE</span><strong>Stato rete &amp; API</strong></div></div>
+<button aria-label="Chiudi stato sistema" class="system-status-close" id="closeSystemStatusButton" type="button">×</button>
+</header>
+<section class="system-status-hero">
+<span class="system-status-orb" id="systemStatusOrb"><i></i></span>
+<div><span>STATO GENERALE</span><strong id="systemStatusHeadline">Verifica in corso…</strong><small id="systemStatusSummary">Controllo dei servizi utilizzati da INJ Node.</small></div>
+</section>
+<div class="system-service-grid">
+<article class="system-service" data-service="internet"><i></i><div><span>CONNESSIONE</span><strong id="serviceInternetState">—</strong><small id="serviceInternetMeta">Dispositivo</small></div></article>
+<article class="system-service" data-service="market"><i></i><div><span>MERCATO LIVE</span><strong id="serviceMarketState">—</strong><small id="serviceMarketMeta">Binance WebSocket</small></div></article>
+<article class="system-service" data-service="lcd"><i></i><div><span>INJECTIVE LCD</span><strong id="serviceLcdState">—</strong><small id="serviceLcdMeta">Wallet e staking</small></div></article>
+<article class="system-service" data-service="apr"><i></i><div><span>APR SERVICE</span><strong id="serviceAprState">—</strong><small id="serviceAprMeta">Network APR</small></div></article>
+</div>
+<div class="system-status-foot"><span>Ultimo controllo</span><strong id="systemStatusChecked">—</strong><button id="systemStatusRefreshButton" type="button">Aggiorna</button></div>
+</div>
+</dialog>
+<div aria-label="Live View Injective" aria-modal="true" class="focus-display-dialog" hidden="" id="focusDisplayDialog" role="dialog">
+<div class="focus-display-shell">
+<div class="focus-display-controls" id="focusDisplayControls">
+<button aria-label="Chiudi Live View e torna al menu" class="focus-display-close focus-display-control" id="closeFocusDisplayButton" title="Menu" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+</button>
+</div>
+<div aria-hidden="true" class="focus-display-brand"><svg aria-hidden="true" class="inj-node-symbol" viewbox="0 0 48 48"><path class="inj-node-symbol-orbit inj-node-symbol-orbit-a" d="M8.5 27.4A16.5 16.5 0 0 1 33.7 9.6"></path><path class="inj-node-symbol-orbit inj-node-symbol-orbit-b" d="M39.5 20.6A16.5 16.5 0 0 1 14.3 38.4"></path><path class="inj-node-symbol-n" d="M15 33V15l18 18V15"></path><circle class="inj-node-symbol-node" cx="15" cy="15" r="2.4"></circle><circle class="inj-node-symbol-node" cx="33" cy="33" r="2.4"></circle><circle class="inj-node-symbol-node inj-node-symbol-node-soft" cx="33" cy="15" r="1.65"></circle><circle class="inj-node-symbol-core" cx="24" cy="24" r="2.75"></circle></svg><span>INJ NODE</span></div>
+<time aria-label="Ora locale" class="focus-display-clock" id="focusDisplayClock">--:--</time>
+<div aria-hidden="true" class="focus-display-live"><i></i><span>LIVE VIEW</span></div>
+<div class="focus-display-content">
+<div class="focus-display-price-block focus-display-primary">
+<span class="focus-display-label">INJ / USDT</span>
+<strong id="focusDisplayPrice">—</strong>
+<span class="focus-display-change neutral" id="focusDisplayChange24h">— · 24H</span>
+</div>
+<div aria-hidden="true" class="focus-display-divider"></div>
+<div class="focus-display-worth-block focus-display-primary">
+<span class="focus-display-wallet" id="focusDisplayWallet">Wallet</span>
+<strong class="private" id="focusDisplayWorth">—</strong>
+<span class="focus-display-total private" id="focusDisplayTotalInj">—</span>
+<span class="focus-display-reward private" id="focusDisplayDailyReward">—</span>
+</div>
+<div class="focus-display-range" id="focusDisplayRange">
+<div class="focus-display-range-copy">
+<span>Min 24H <b id="focusDisplayRangeMin">—</b></span>
+<span>Max 24H <b id="focusDisplayRangeMax">—</b></span>
+</div>
+<div aria-label="Posizione prezzo nel range 24 ore" class="focus-display-range-track">
+<i class="focus-display-range-fill" id="focusDisplayRangeFill"></i>
+<i class="focus-display-range-marker" id="focusDisplayRangeMarker"></i>
+</div>
+</div>
+<div aria-label="Dati staking live" class="focus-display-stats private">
+<div><span>APR NETTO</span><strong id="focusDisplayApr">—</strong></div>
+<div><span>IN STAKING</span><strong id="focusDisplayStaked">—</strong></div>
+<div><span>REWARD</span><strong id="focusDisplayRewards">—</strong></div>
+</div>
+<button aria-label="Apri stato rete e API" class="focus-display-system" id="focusDisplaySystemButton" type="button"><i id="focusDisplaySystemDot"></i><span id="focusDisplaySystemText">SYSTEM · —</span><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg></button>
+</div>
+</div>
+</div>
+<div aria-label="Pulse View INJ Node" aria-modal="true" class="pulse-view-dialog" hidden="" id="pulseViewDialog" role="dialog">
+<div class="pulse-view-shell">
+<div class="pulse-view-controls">
+<button aria-label="Chiudi Pulse View e torna al menu" class="pulse-view-close" id="closePulseViewButton" title="Menu" type="button">×</button>
+</div>
+<header class="pulse-view-header">
+<div class="pulse-view-brand"><svg aria-hidden="true" class="inj-node-symbol" viewbox="0 0 48 48"><path class="inj-node-symbol-orbit inj-node-symbol-orbit-a" d="M8.5 27.4A16.5 16.5 0 0 1 33.7 9.6"></path><path class="inj-node-symbol-orbit inj-node-symbol-orbit-b" d="M39.5 20.6A16.5 16.5 0 0 1 14.3 38.4"></path><path class="inj-node-symbol-n" d="M15 33V15l18 18V15"></path><circle class="inj-node-symbol-node" cx="15" cy="15" r="2.4"></circle><circle class="inj-node-symbol-node" cx="33" cy="33" r="2.4"></circle><circle class="inj-node-symbol-node inj-node-symbol-node-soft" cx="33" cy="15" r="1.65"></circle><circle class="inj-node-symbol-core" cx="24" cy="24" r="2.75"></circle></svg><span>INJ NODE</span></div>
+<div class="pulse-view-title">
+<span><i></i>PULSE VIEW</span>
+<h2>Daily Momentum</h2>
+<small id="pulseViewSession">Giornata · —</small>
+</div>
+<time class="pulse-view-clock" id="pulseViewClock">--:--</time>
+</header>
+<main class="pulse-view-stage">
+<div aria-hidden="true" class="pulse-view-axis"><span>0</span></div>
+<div class="pulse-view-candles">
+<section class="pulse-metric pulse-metric-price" id="pulseMetricPrice">
+<div class="pulse-metric-delta pulse-live-tag"><i aria-hidden="true" class="pulse-live-direction"></i><span id="pulsePriceDelta">0.00%</span></div>
+<div class="pulse-candle-zone">
+<i class="pulse-extreme-trail pulse-extreme-trail-high"></i>
+<i class="pulse-extreme-trail pulse-extreme-trail-low"></i>
+<b class="pulse-extreme-point pulse-extreme-point-high"></b>
+<b class="pulse-extreme-point pulse-extreme-point-low"></b>
+<div class="pulse-extreme-tag pulse-extreme-tag-high"><span>ATH</span><strong id="pulsePriceHigh">—</strong></div>
+<div class="pulse-extreme-tag pulse-extreme-tag-low"><span>ATL</span><strong id="pulsePriceLow">—</strong></div>
+<div aria-live="polite" class="pulse-extreme-event" id="pulsePriceEvent"></div>
+<i class="pulse-candle-wick" id="pulsePriceWick"></i>
+<i class="pulse-candle-body" id="pulsePriceCandle"></i>
+<b class="pulse-candle-point" id="pulsePricePoint"></b>
+</div>
+</section>
+<section class="pulse-metric pulse-metric-pnl" id="pulseMetricPnl">
+<div class="pulse-metric-delta pulse-live-tag"><i aria-hidden="true" class="pulse-live-direction"></i><span id="pulsePnlDelta">—</span></div>
+<div class="pulse-candle-zone">
+<i class="pulse-extreme-trail pulse-extreme-trail-high"></i>
+<i class="pulse-extreme-trail pulse-extreme-trail-low"></i>
+<b class="pulse-extreme-point pulse-extreme-point-high"></b>
+<b class="pulse-extreme-point pulse-extreme-point-low"></b>
+<div class="pulse-extreme-tag pulse-extreme-tag-high"><span>ATH</span><strong id="pulsePnlHigh">—</strong></div>
+<div class="pulse-extreme-tag pulse-extreme-tag-low"><span>ATL</span><strong id="pulsePnlLow">—</strong></div>
+<div aria-live="polite" class="pulse-extreme-event" id="pulsePnlEvent"></div>
+<i class="pulse-candle-wick" id="pulsePnlWick"></i>
+<i class="pulse-candle-body" id="pulsePnlCandle"></i>
+<b class="pulse-candle-point" id="pulsePnlPoint"></b>
+</div>
+</section>
+<section class="pulse-metric pulse-metric-reward" id="pulseMetricReward">
+<div class="pulse-metric-delta pulse-live-tag"><i aria-hidden="true" class="pulse-live-direction"></i><span id="pulseRewardDelta">0.0000 INJ</span></div>
+<div class="pulse-candle-zone">
+<i class="pulse-extreme-trail pulse-extreme-trail-high"></i>
+<i class="pulse-extreme-trail pulse-extreme-trail-low"></i>
+<b class="pulse-extreme-point pulse-extreme-point-high"></b>
+<b class="pulse-extreme-point pulse-extreme-point-low"></b>
+<div class="pulse-extreme-tag pulse-extreme-tag-high"><span>ATH</span><strong id="pulseRewardHigh">—</strong></div>
+<div class="pulse-extreme-tag pulse-extreme-tag-low"><span>ATL</span><strong id="pulseRewardLow">—</strong></div>
+<div aria-live="polite" class="pulse-extreme-event" id="pulseRewardEvent"></div>
+<i class="pulse-candle-wick" id="pulseRewardWick"></i>
+<i class="pulse-candle-body" id="pulseRewardCandle"></i>
+<b class="pulse-candle-point" id="pulseRewardPoint"></b>
+</div>
+</section>
+</div>
+</main>
+<section aria-label="Andamento live giornaliero" class="pulse-mini-strip">
+<article class="pulse-mini-card pulse-mini-price">
+<div class="pulse-mini-head"><span>PRICE</span><strong id="pulsePriceValue">—</strong></div>
+<svg aria-label="Mini grafico prezzo" class="pulse-mini-chart" id="pulsePriceSparkline" preserveaspectratio="none" viewbox="0 0 180 48"></svg>
+<small id="pulsePriceMeta">vs apertura giornata</small>
+</article>
+<article class="pulse-mini-card pulse-mini-pnl">
+<div class="pulse-mini-head"><span>DAILY P/L</span><strong class="private" id="pulsePnlValue">—</strong></div>
+<svg aria-label="Mini grafico profit e loss" class="pulse-mini-chart" id="pulsePnlSparkline" preserveaspectratio="none" viewbox="0 0 180 48"></svg>
+<small id="pulsePnlMeta">vs apertura giornata</small>
+</article>
+<article class="pulse-mini-card pulse-mini-reward">
+<div class="pulse-mini-head"><span>REWARD</span><strong class="private" id="pulseRewardValue">—</strong></div>
+<svg aria-label="Mini grafico reward" class="pulse-mini-chart" id="pulseRewardSparkline" preserveaspectratio="none" viewbox="0 0 180 48"></svg>
+<small id="pulseRewardMeta">reward maturate</small>
+</article>
+</section>
+<footer class="pulse-view-footer">
+<div><span>LIVE</span><strong>estremi + andamento giornaliero</strong></div>
+<div><span>REWARD</span><strong>nuovo ciclo dopo il claim</strong></div>
+</footer>
+</div>
+</div>
+<div aria-label="Grafico Injective" aria-modal="true" class="chart-dialog native-chart-dialog" hidden="" id="chartDialog" role="dialog">
+<div class="chart-dialog-shell">
+<article class="market-terminal-card native-market-terminal" id="marketTerminalCard">
+<header class="market-terminal-header">
+<div class="market-terminal-identity">
+<span class="market-terminal-kicker">Mercato</span>
+<div class="market-terminal-title-row">
+<h2>INJ / USDT</h2>
+<span class="market-terminal-live"><i></i>LIVE</span>
+</div>
+</div>
+<div aria-label="Prezzo e performance periodo" class="market-terminal-quote">
+<strong id="chartHeaderPrice">$—</strong>
+<span class="neutral" id="chartHeaderChange">—</span>
+</div>
+<button aria-label="Chiudi grafico" class="chart-dialog-close" id="closeChartButton" title="Chiudi grafico" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+</button>
+</header>
+<div class="native-chart-panel" id="chartPreviewPanel">
+<div aria-label="Riepilogo periodo" class="native-chart-summary">
+<div><span>APERTURA</span><strong id="nativeChartOpen">—</strong></div>
+<div><span>MIN</span><strong id="nativeChartLow">—</strong></div>
+<div><span>MAX</span><strong id="nativeChartHigh">—</strong></div>
+<div><span>ORA</span><strong id="nativeChartNow">—</strong></div>
+</div>
+<div aria-label="Andamento live INJ/USDT" class="native-chart-host" id="nativeChartHost">
+<svg aria-label="Grafico performance INJ/USDT" class="native-chart-svg" id="nativeChartSvg" role="img"></svg>
+<div class="native-chart-placeholder" id="nativeChartPlaceholder"><i></i><span>Caricamento dati…</span></div>
+<div class="native-chart-tooltip" hidden="" id="nativeChartTooltip"></div>
+</div>
+<div aria-label="Timeframe grafico" class="native-chart-timebar">
+<button data-native-chart-range="h1" type="button">1H</button>
+<button data-native-chart-range="d1" type="button">1D</button>
+<button data-native-chart-range="w1" type="button">1S</button>
+<button data-native-chart-range="m1" type="button">1M</button>
+<button data-native-chart-range="y1" type="button"><span>ALL</span><small>1Y</small></button>
+</div>
+</div>
+</article>
+</div>
+</div>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<script defer="" src="app.js?v=15.99.73"></script>
+
+<script>
+(function(){
+  function loadInjLanguage(){
+    if (window.INJ_I18N || document.querySelector('script[data-inj-i18n]')) return;
+    var s=document.createElement('script');s.src='i18n.js?v=15.99.73';s.async=true;s.dataset.injI18n='1';
+    s.onerror=function(){s.remove();};document.body.appendChild(s);
+  }
+  window.addEventListener('load',function(){window.setTimeout(loadInjLanguage,120);},{once:true});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html data-inj-page="treasury" data-inj-viewport="89" lang="it" data-theme="navy">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07121b">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>INJ NODE · Treasury</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('inj_monitor_theme');
+      const theme = ['navy','black','light','amber'].includes(savedTheme) ? savedTheme : 'navy';
+      document.documentElement.dataset.theme = theme;
+      const themeColors = { navy:'#07121b', black:'#090b0e', light:'#f8fbff', amber:'#0a111a' };
+      document.querySelector('meta[name=\"theme-color\"]')?.setAttribute('content', themeColors[theme]);
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="./treasury.css?v=16.00.0">
+<script>document.addEventListener('DOMContentLoaded',()=>{const c=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();if(c)document.querySelector('meta[name="theme-color"]')?.setAttribute('content',c)},{once:true});</script>
+<link rel="stylesheet" href="viewport.css?v=16.00.0">
+<script defer src="viewport.js?v=16.00.0"></script>
+</head>
+<body>
+  <div class="treasury-shell">
+    <header class="treasury-header">
+      <a class="treasury-close" id="treasuryClose" href="./index.html" aria-label="Torna alla Home" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7"></path><path d="M6.5 10v9h11v-9M10 19v-5h4v5"></path></svg>
+      </a>
+      <div class="treasury-title">
+        <span>INJ NODE</span>
+        <strong>Treasury</strong>
+      </div>
+      <div class="treasury-market-reference">
+        <strong id="treasuryHeaderPrice">—</strong>
+        <span class="treasury-live sync" id="treasuryLiveBadge"><i></i>LIVE</span>
+      </div>
+    </header>
+
+    <main class="treasury-main">
+      <section class="treasury-hero">
+        <div class="treasury-hero-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="treasury-hero-copy">
+          <span class="treasury-kicker">TOTAL MANAGED</span>
+          <div class="treasury-total-display" id="treasuryTotalDisplay" aria-label="Totale INJ gestiti">
+            <strong class="treasury-total-major" id="treasuryTotalMajor">—</strong><strong class="treasury-total-decimals" id="treasuryTotalDecimals"></strong><small>INJ</small>
+          </div>
+          <div class="treasury-hero-worth" id="treasuryTotalWorth">—</div>
+          <div class="treasury-hero-pnl neutral" id="treasuryPnl24" aria-label="Profit loss Treasury ultime 24 ore">
+            <span>P/L 24H</span>
+            <strong id="treasuryPnl24Value">—</strong>
+            <small id="treasuryPnl24Pct">—</small>
+          </div>
+          <div class="treasury-status-line"><span id="treasuryUpdated">SYNC</span><span class="treasury-status-live"><i></i>LIVE</span></div>
+        </div>
+      </section>
+
+      <section class="treasury-grid">
+        <article class="treasury-panel treasury-allocation-panel">
+          <header><div><span>ALLOCATION</span><strong>Composizione Treasury</strong></div><small id="treasuryWalletCount">—</small></header>
+          <div class="treasury-allocation-visual" aria-label="Distribuzione percentuale Treasury">
+            <div class="treasury-pie-wrap">
+              <svg class="treasury-allocation-pie" id="treasuryAllocationPie" viewBox="0 0 120 120" role="img" aria-label="Grafico a torta della composizione Treasury"></svg>
+            </div>
+            <div class="treasury-allocation-side">
+              <div class="treasury-allocation-row staked"><span><i></i>Staking</span><strong id="treasuryStakedPct">—</strong><small id="treasuryAllocationStakedValue">—</small></div>
+              <div class="treasury-allocation-row available"><span><i></i>Disponibile</span><strong id="treasuryAvailablePct">—</strong><small id="treasuryAllocationAvailableValue">—</small></div>
+              <div class="treasury-allocation-row rewards"><span><i></i>Reward</span><strong id="treasuryRewardsPct">—</strong><small id="treasuryAllocationRewardsValue">—</small></div>
+            </div>
+          </div>
+          <div class="treasury-metrics treasury-allocation-metrics" aria-label="Dettaglio patrimonio Treasury">
+            <article class="treasury-metric treasury-metric-reward reward-accent-frame reward-accent-inline">
+              <span>REWARD DISPONIBILI</span>
+              <div class="treasury-reward-value-runway">
+                <strong id="treasuryRewards">—</strong>
+                <span class="treasury-reward-runway" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i><i></i>
+                </span>
+              </div>
+              <small id="treasuryRewardsWorth">—</small>
+            </article>
+            <article class="treasury-metric"><span>INJ DISPONIBILI</span><strong id="treasuryAvailable">—</strong><small id="treasuryAvailableWorth">—</small></article>
+            <article class="treasury-metric"><span>IN STAKING</span><strong id="treasuryStaked">—</strong><small id="treasuryStakedWorth">—</small></article>
+            <article class="treasury-metric"><span>STAKING RATIO</span><strong id="treasuryStakeRatio">—</strong><small>quota del totale</small></article>
+          </div>
+        </article>
+
+        <article class="treasury-panel treasury-velocity-panel">
+          <header><div><span>REWARD VELOCITY</span><strong>Produzione stimata</strong></div><small id="treasuryApr">APR —</small></header>
+          <div class="treasury-velocity-grid">
+            <div><span>1 ORA</span><strong id="treasuryRewardHour">—</strong><small id="treasuryRewardHourWorth">—</small></div>
+            <div><span>1 GIORNO</span><strong id="treasuryRewardDay">—</strong><small id="treasuryRewardDayWorth">—</small></div>
+            <div><span>1 MESE</span><strong id="treasuryRewardMonth">—</strong><small id="treasuryRewardMonthWorth">—</small></div>
+            <div><span>1 ANNO</span><strong id="treasuryRewardYear">—</strong><small id="treasuryRewardYearWorth">—</small></div>
+          </div>
+        </article>
+
+        <article class="treasury-panel treasury-milestone-panel">
+          <header><div><span>NEXT MILESTONE</span><strong id="treasuryMilestoneTitle">—</strong></div><small id="treasuryMilestonePct">—</small></header>
+          <div class="treasury-progress"><i id="treasuryMilestoneBar"></i></div>
+          <footer><span id="treasuryMilestoneCurrent">—</span><span id="treasuryMilestoneRemaining">—</span></footer>
+        </article>
+
+        <article class="treasury-panel treasury-session-panel">
+          <header><div><span>TOTAL INJ GROWTH</span><strong>Crescita Treasury</strong></div><small id="treasurySessionDelta">+0,0000 INJ</small></header>
+          <div class="treasury-chart-ranges treasury-growth-ranges" id="treasuryGrowthRanges" aria-label="Intervallo crescita Treasury">
+            <button type="button" class="active" data-growth-range="d1" aria-pressed="true">1G</button>
+            <button type="button" data-growth-range="w1" aria-pressed="false" disabled>1S</button>
+            <button type="button" data-growth-range="m1" aria-pressed="false" disabled>1M</button>
+            <button type="button" data-growth-range="all" aria-pressed="false">ALL</button>
+          </div>
+          <div class="treasury-chart-summary" aria-hidden="true">
+            <div class="treasury-chart-overlay treasury-growth-overlay">
+              <div class="treasury-chart-primary">
+                <span id="treasuryGrowthLabel">TOTALE ATTUALE</span>
+                <strong id="treasuryGrowthCurrent">—</strong>
+              </div>
+              <div class="treasury-chart-side">
+                <span id="treasuryGrowthSideLabel">DAL PRIMO DATO</span>
+                <strong id="treasuryGrowthChange">—</strong>
+                <small id="treasuryGrowthChangePct">—</small>
+              </div>
+            </div>
+            <div class="treasury-chart-meta treasury-growth-meta">
+              <span id="treasuryGrowthAth">ATH —</span>
+              <span id="treasuryGrowthPoints">STORICO —</span>
+            </div>
+          </div>
+          <div class="treasury-spark-stage" id="treasurySparkStage" role="img" tabindex="0" aria-label="Crescita storica del totale INJ. Tocca o trascina per leggere i valori nel tempo.">
+            <svg class="treasury-sparkline" id="treasurySparkline" viewBox="0 0 320 96" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <span class="treasury-chart-live-dot treasury-growth-end-dot" id="treasuryGrowthLiveDot" hidden aria-hidden="true"></span>
+            <span class="treasury-spark-cursor" id="treasurySparkCursor" hidden aria-hidden="true"><i></i></span>
+            <span class="treasury-spark-tooltip" id="treasurySparkTooltip" hidden aria-live="polite"><strong>—</strong><small>—</small></span>
+          </div>
+          <footer><span id="treasuryHistoryStart">Prima lettura</span><span id="treasuryHistoryEnd">Ora</span></footer>
+        </article>
+
+        <article class="treasury-panel treasury-networth-panel">
+          <header><div><span>TOTAL NET WORTH GROWTH</span><strong>Andamento patrimonio</strong></div><small id="treasuryWorthDelta">—</small></header>
+          <div class="treasury-chart-ranges treasury-worth-ranges" id="treasuryWorthRanges" aria-label="Intervallo andamento patrimonio">
+            <button type="button" class="active" data-worth-range="d1" aria-pressed="true">1G</button>
+            <button type="button" data-worth-range="w1" aria-pressed="false" disabled>1S</button>
+            <button type="button" data-worth-range="m1" aria-pressed="false" disabled>1M</button>
+            <button type="button" data-worth-range="all" aria-pressed="false">ALL</button>
+          </div>
+          <div class="treasury-chart-summary" aria-hidden="true">
+            <div class="treasury-chart-overlay treasury-worth-overlay">
+              <div class="treasury-chart-primary">
+                <span id="treasuryWorthLabel">VALORE ATTUALE</span>
+                <strong id="treasuryNetWorthCurrent">—</strong>
+              </div>
+              <div class="treasury-chart-side">
+                <span id="treasuryWorthSideLabel">DAL PRIMO DATO</span>
+                <strong id="treasuryWorthChangeAbs">—</strong>
+                <small id="treasuryWorthChangePct">—</small>
+              </div>
+            </div>
+            <div class="treasury-chart-meta treasury-worth-meta">
+              <span id="treasuryWorthMin">MIN —</span>
+              <span id="treasuryWorthMax">MAX —</span>
+            </div>
+          </div>
+          <div class="treasury-spark-stage treasury-worth-stage" id="treasuryWorthStage" role="img" tabindex="0" aria-label="Andamento storico del patrimonio totale. Tocca o trascina per leggere valore e data nel tempo.">
+            <svg class="treasury-sparkline treasury-worth-sparkline" id="treasuryWorthSparkline" viewBox="0 0 320 96" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <span class="treasury-worth-axis" aria-hidden="true"><b id="treasuryWorthAxisTop">—</b><b id="treasuryWorthAxisBottom">—</b></span>
+            <span class="treasury-chart-live-dot treasury-worth-end-dot" id="treasuryWorthLiveDot" hidden aria-hidden="true"></span>
+            <span class="treasury-spark-cursor" id="treasuryWorthCursor" hidden aria-hidden="true"><i></i></span>
+            <span class="treasury-spark-tooltip" id="treasuryWorthTooltip" hidden aria-live="polite"><strong>—</strong><small>—</small></span>
+          </div>
+          <footer><span id="treasuryWorthHistoryStart">Prima lettura</span><span id="treasuryWorthHistoryEnd">Ora</span></footer>
+        </article>
+
+        <article class="treasury-panel treasury-performance-panel">
+          <header>
+            <div><span>TREASURY PERFORMANCE</span><strong>Performance storica</strong></div>
+            <small id="treasuryPerformanceCoverage">STORICO LIVE</small>
+          </header>
+          <div class="treasury-performance-grid" aria-label="Performance Treasury per intervallo">
+            <div class="treasury-performance-cell neutral" id="treasuryPerf24Cell"><span>24H</span><strong id="treasuryPerf24Inj">—</strong><small id="treasuryPerf24Worth">—</small></div>
+            <div class="treasury-performance-cell neutral" id="treasuryPerf7Cell"><span>7D</span><strong id="treasuryPerf7Inj">—</strong><small id="treasuryPerf7Worth">—</small></div>
+            <div class="treasury-performance-cell neutral" id="treasuryPerf30Cell"><span>30D</span><strong id="treasuryPerf30Inj">—</strong><small id="treasuryPerf30Worth">—</small></div>
+            <div class="treasury-performance-cell neutral" id="treasuryPerfAllCell"><span>ALL</span><strong id="treasuryPerfAllInj">—</strong><small id="treasuryPerfAllWorth">—</small></div>
+          </div>
+          <div class="treasury-performance-insights">
+            <div><span>BEST DAY</span><strong id="treasuryBestDay">—</strong><small id="treasuryBestDayDate">—</small></div>
+            <div><span>WORST DAY</span><strong id="treasuryWorstDay">—</strong><small id="treasuryWorstDayDate">—</small></div>
+            <div><span>ATH TREASURY</span><strong id="treasuryPerformanceAth">—</strong><small id="treasuryPerformanceAthDate">—</small></div>
+            <div><span>GROWTH</span><strong id="treasuryPerformanceGrowth">—</strong><small id="treasuryPerformanceGrowthPct">—</small></div>
+          </div>
+        </article>
+      </section>
+    <footer class="inj-long-page-signature" aria-label="INJ Node signature">INJ NODE · by IB</footer>
+</main>
+  </div>
+  <script src="./treasury.js?v=16.00.0" defer></script>
+
+<script>
+(function(){
+  function loadInjLanguage(){
+    if (window.INJ_I18N || document.querySelector('script[data-inj-i18n]')) return;
+    var s=document.createElement('script');s.src='i18n.js?v=16.00.0';s.async=true;s.dataset.injI18n='1';
+    s.onerror=function(){s.remove();};document.body.appendChild(s);
+  }
+  window.addEventListener('load',function(){window.setTimeout(loadInjLanguage,120);},{once:true});
+})();
+</script>
+</body>
+</html>

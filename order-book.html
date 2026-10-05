@@ -1,0 +1,60 @@
+<!doctype html>
+<html data-inj-page="order-book" data-inj-viewport="80" lang="it" data-theme="navy">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050506">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Order Book · INJ Node</title>
+  <script>
+    try { const t=localStorage.getItem('inj_monitor_theme'); document.documentElement.dataset.theme=['navy','black','light','amber'].includes(t)?t:'navy'; } catch(_) {}
+  </script>
+  <link rel="stylesheet" href="order-book.css?v=15.99.80">
+<script>document.addEventListener('DOMContentLoaded',()=>{const c=getComputedStyle(document.documentElement).getPropertyValue('--canvas').trim();if(c)document.querySelector('meta[name="theme-color"]')?.setAttribute('content',c)},{once:true});</script>
+<link rel="stylesheet" href="viewport.css?v=15.99.80">
+<script defer src="viewport.js?v=15.99.80"></script>
+</head>
+<body>
+  <main class="book-page">
+    <header class="book-topbar">
+      <button class="back-button" id="bookBack" type="button" aria-label="Torna alla Home">×</button>
+      <div class="book-brand"><span class="mark">N</span><div><strong>INJ NODE</strong><small>ORDER BOOK</small></div></div>
+      <div class="pair"><i></i><div><strong>INJ / USDT</strong><small>BINANCE · REALTIME</small></div></div>
+      <div class="top-actions">
+        <label class="group-label"><span>STEP</span><select id="bookGrouping" aria-label="Aggregazione Order Book"><option value="0.001">0.001</option><option value="0.01">0.01</option><option value="0.1">0.1</option><option value="1">1</option></select></label>
+        <span class="status" id="bookState"><i></i><b>SYNC</b></span>
+      </div>
+    </header>
+
+    <section class="book-shell" aria-label="Order Book realtime INJ USDT">
+      <div class="book-meta"><span id="bookDepthHint">INJ / USDT · 0.001 STEP · 100 LEVELS</span><span id="currencyHint">TOTAL $</span></div>
+      <div class="columns"><span>PRICE</span><span>SIZE INJ</span><span id="bookTotalLabel">TOTAL $</span></div>
+      <div class="levels asks" id="bookAsks" aria-label="Ordini di vendita"></div>
+      <div class="market-price" id="bookMarketPrice">
+        <small>LAST TRADE</small>
+        <div class="market-price-line">
+          <strong id="bookLivePrice">—</strong>
+          <span class="trade-arrow neutral" id="bookTradeArrow" aria-label="Direzione ultimo trade">•</span>
+        </div>
+      </div>
+      <div class="levels bids" id="bookBids" aria-label="Ordini di acquisto"></div>
+    </section>
+
+    <footer class="book-footer"><span><i></i> DEPTH LIVE</span><small>Scroll indipendente ASK / BID · il totale è il controvalore cumulativo reale</small></footer>
+  </main>
+  <script src="order-book.js?v=15.99.54" defer></script>
+
+<script>
+(function(){
+  function loadInjLanguage(){
+    if (window.INJ_I18N || document.querySelector('script[data-inj-i18n]')) return;
+    var s=document.createElement('script');s.src='i18n.js?v=15.99.80';s.async=true;s.dataset.injI18n='1';
+    s.onerror=function(){s.remove();};document.body.appendChild(s);
+  }
+  window.addEventListener('load',function(){window.setTimeout(loadInjLanguage,120);},{once:true});
+})();
+</script>
+</body>
+</html>

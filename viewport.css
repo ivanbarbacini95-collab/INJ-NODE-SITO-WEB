@@ -1,0 +1,142 @@
+/* v15.99.80 — Full-page geometry. Content keeps safe-area padding inside. */
+html[data-inj-viewport] {
+  --inj-viewport-height: 100vh;
+}
+@supports (height:100dvh) {
+  html[data-inj-viewport] { --inj-viewport-height:100dvh; }
+}
+html[data-inj-viewport]:has(.performance-timeline-view.open),
+html[data-inj-viewport]:has(.converter-view.open),
+html[data-inj-page]:not([data-inj-page="index"]),
+html[data-inj-page]:not([data-inj-page="index"]) body {
+  position:static!important;inset:auto!important;margin:0!important;padding:0!important;
+  width:100%!important;min-width:0!important;height:100%!important;min-height:0!important;
+  max-height:none!important;overflow:hidden!important;overscroll-behavior:none!important;
+}
+html[data-inj-viewport] #entryGate,
+html[data-inj-viewport] #performanceTimelineView,
+html[data-inj-viewport] #converterView,
+html[data-inj-viewport] .focus-display-dialog,
+html[data-inj-viewport] .pulse-view-dialog,
+html[data-inj-viewport] .native-chart-dialog,
+html[data-inj-viewport] .treasury-shell,
+html[data-inj-viewport] .book-page,
+html[data-inj-viewport] .live-page,
+html[data-inj-viewport] .cc-shell {
+  position:absolute!important;inset:var(--inj-document-top,0px) 0 auto!important;
+  width:100%!important;height:var(--inj-viewport-height)!important;
+  min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
+  margin:0!important;border:0!important;border-radius:0!important;box-sizing:border-box!important;
+}
+/* Avoid a transformed, separately clipped compositing surface around Home. */
+html[data-inj-viewport] #entryGate {
+  transform:none!important;-webkit-transform:none!important;will-change:auto!important;
+  padding:0!important;overflow-x:hidden!important;overflow-y:auto!important;
+  background:var(--page-gradient),var(--theme-canvas,var(--bg))!important;
+}
+html[data-inj-viewport] #entryGate > .entry-gate-shell {
+  width:100%!important;max-width:none!important;min-height:100%!important;max-height:none!important;
+  margin:0!important;box-sizing:border-box!important;border-radius:0!important;
+  padding-top:max(8px,env(safe-area-inset-top))!important;
+  padding-right:max(8px,env(safe-area-inset-right))!important;
+  padding-bottom:max(8px,env(safe-area-inset-bottom))!important;
+  padding-left:max(8px,env(safe-area-inset-left))!important;
+}
+html[data-inj-viewport] #performanceTimelineView,
+html[data-inj-viewport] #converterView {
+  overflow:hidden!important;padding:0!important;
+  background:var(--page-gradient),var(--theme-canvas,var(--bg))!important;
+}
+html[data-inj-viewport] .performance-timeline-shell,
+html[data-inj-viewport] .converter-view-shell {
+  width:100%!important;height:100%!important;min-height:0!important;max-width:none!important;
+  margin:0!important;box-sizing:border-box!important;
+  padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))!important;
+}
+html[data-inj-viewport] .treasury-shell { overflow-x:hidden!important;overflow-y:auto!important; }
+html[data-inj-viewport] .book-page,
+html[data-inj-viewport] .live-page,
+html[data-inj-viewport] .cc-shell { overflow:hidden!important; }
+html[data-inj-viewport] .book-shell { width:100%!important;max-width:none!important; }
+
+/* Safari clips fixed layers above its bottom controls. Home follows the same
+   document-scrolling model as Dashboard; the standalone pages are in flow. */
+html[data-inj-viewport]:has(#entryGate.visible),
+html[data-inj-viewport] body.entry-gate-open{
+ position:static!important;height:auto!important;min-height:100%!important;
+ overflow-x:clip!important;overflow-y:auto!important;
+}
+html[data-inj-viewport] #entryGate.visible{
+ position:relative!important;inset:auto!important;height:auto!important;
+ min-height:var(--inj-viewport-height)!important;overflow:visible!important;
+}
+html[data-inj-viewport] #entryGate > .entry-gate-shell{
+ min-height:var(--inj-viewport-height)!important;
+}
+html[data-inj-viewport] body.entry-gate-open > .app-shell{
+ position:absolute!important;top:0;left:0;width:100%;visibility:hidden;pointer-events:none;
+ height:var(--inj-viewport-height)!important;min-height:0!important;max-height:var(--inj-viewport-height)!important;
+ overflow:hidden!important;contain:paint;
+}
+html[data-inj-page]:not([data-inj-page="index"]),
+html[data-inj-page]:not([data-inj-page="index"]) body{
+ height:auto!important;min-height:100%!important;overflow-x:clip!important;overflow-y:auto!important;
+}
+html[data-inj-viewport] .treasury-shell,
+html[data-inj-viewport] .book-page,
+html[data-inj-viewport] .live-page,
+html[data-inj-viewport] .cc-shell{
+ position:relative!important;inset:auto!important;
+}
+html[data-inj-viewport] .treasury-shell{
+ height:auto!important;min-height:var(--inj-viewport-height)!important;overflow:visible!important;
+}
+/* Lock document scroll only while a modal section or the menu is open. */
+html[data-inj-viewport]:has(.performance-timeline-view.open),
+html[data-inj-viewport]:has(.converter-view.open),
+html[data-inj-viewport]:has(.focus-display-dialog:not([hidden])),
+html[data-inj-viewport]:has(.pulse-view-dialog:not([hidden])),
+html[data-inj-viewport]:has(body.menu-overlay-open),
+html[data-inj-viewport] body.menu-overlay-open,
+html[data-inj-viewport] body.focus-display-open,
+html[data-inj-viewport] body.pulse-view-open{
+ overflow:hidden!important;
+}
+
+/* End the Home document at the final launcher, with only safe-area spacing. */
+html[data-inj-viewport] #entryGate > .entry-gate-shell:not(.first-access) > .entry-note{display:none!important;}
+html[data-inj-viewport] #entryGate > .entry-gate-shell > .entry-actions{margin-bottom:0!important;}
+/* Content pages can reach their last card even on a short landscape viewport. */
+html[data-inj-viewport] #converterView,
+html[data-inj-viewport] #performanceTimelineView{overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior-y:contain;}
+html[data-inj-viewport] .converter-view-shell,
+html[data-inj-viewport] .performance-timeline-shell{height:auto!important;min-height:100%!important;}
+html[data-inj-viewport] .converter-view-main,
+html[data-inj-viewport] .converter-view-main > .entry-converter{height:auto!important;}
+html[data-inj-viewport] .treasury-shell{padding-bottom:max(8px,env(safe-area-inset-bottom))!important;}
+
+/* v15.99.80 — native momentum within bounds; no scroll-position nudges. */
+html[data-inj-viewport],html[data-inj-viewport] body{
+ overscroll-behavior-y:none!important;overflow-anchor:none!important;
+}
+html[data-inj-viewport] #entryGate,
+html[data-inj-viewport] .treasury-shell,
+html[data-inj-viewport] #performanceTimelineView,
+html[data-inj-viewport] #converterView,
+html[data-inj-viewport] .book-page .levels{
+ overscroll-behavior-y:none!important;overflow-anchor:none!important;scroll-behavior:auto!important;
+}
+/* Converter fills one screen. Its content stays centered; only an unusually
+   short viewport (e.g. a software keyboard) can scroll the content area. */
+html[data-inj-viewport] #converterView{overflow:hidden!important;}
+html[data-inj-viewport] #converterView .converter-view-shell{
+ height:100%!important;min-height:0!important;max-height:100%!important;
+ grid-template-rows:auto minmax(0,1fr)!important;overflow:hidden!important;
+}
+html[data-inj-viewport] #converterView .converter-view-main{
+ height:100%!important;min-height:0!important;overflow-x:hidden!important;overflow-y:auto!important;
+ align-items:safe center!important;justify-items:center!important;overscroll-behavior-y:none!important;
+}
+html[data-inj-viewport] #converterView .entry-converter{
+ height:auto!important;min-height:0!important;max-width:1120px!important;align-self:safe center!important;
+}

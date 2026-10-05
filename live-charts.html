@@ -1,0 +1,125 @@
+<!doctype html>
+<html data-inj-page="live-charts" data-inj-viewport="80" lang="it" data-theme="navy">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050506">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="INJ Node">
+  <title>Live Charts · INJ Node</title>
+  <script>
+    try {
+      const theme = localStorage.getItem('inj_monitor_theme');
+      document.documentElement.dataset.theme = ['navy','black','light','amber'].includes(theme) ? theme : 'navy';
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="live-charts.css?v=15.99.80">
+<script>document.addEventListener('DOMContentLoaded',()=>{const c=getComputedStyle(document.documentElement).getPropertyValue('--canvas').trim();if(c)document.querySelector('meta[name="theme-color"]')?.setAttribute('content',c)},{once:true});</script>
+<link rel="stylesheet" href="viewport.css?v=15.99.80">
+<script defer src="viewport.js?v=15.99.80"></script>
+</head>
+<body>
+  <main class="live-page" id="livePage">
+    <header class="terminal-header">
+      <button class="icon-button back-button" id="liveChartsBack" type="button" aria-label="Torna alla Home">×</button>
+
+      <div class="brand" aria-label="INJ Node">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8.5 27.4A16.5 16.5 0 0 1 33.7 9.6"/><path d="M39.5 20.6A16.5 16.5 0 0 1 14.3 38.4"/><path d="M15 33V15l18 18V15"/><circle cx="15" cy="15" r="2.4"/><circle cx="33" cy="33" r="2.4"/><circle cx="24" cy="24" r="2.75"/></svg>
+        <span>INJ NODE</span>
+      </div>
+
+      <div class="market-heading">
+        <div class="market-pair"><i></i><strong>INJ / USDT</strong><span id="activeRangeLabel">1 MIN</span></div>
+        <div class="market-price-row">
+          <strong id="headerLivePrice">—</strong>
+          <span class="range-change neutral" id="headerRangeChange">—</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <span class="connection-pill" id="connectionState"><i></i><b>CONNECTING</b></span>
+        <button class="focus-button indicator-toggle" id="indicatorToggle" type="button" aria-pressed="true">IND</button>
+        <button class="focus-button" id="focusToggle" type="button" aria-pressed="false">FOCUS</button>
+      </div>
+    </header>
+
+    <nav class="timeframe-bar" id="timeframeBar" aria-label="Seleziona timeframe">
+      <button class="timeframe active" type="button" data-range="m1"><b>1</b><span>MIN</span></button>
+      <button class="timeframe" type="button" data-range="m5"><b>5</b><span>MIN</span></button>
+      <button class="timeframe" type="button" data-range="m15"><b>15</b><span>MIN</span></button>
+      <button class="timeframe extra-mobile" type="button" data-range="m30"><b>30</b><span>MIN</span></button>
+      <button class="timeframe" type="button" data-range="h1"><b>1</b><span>ORA</span></button>
+      <button class="timeframe" type="button" data-range="h4"><b>4</b><span>ORE</span></button>
+      <button class="timeframe" type="button" data-range="d1"><b>1</b><span>G</span></button>
+      <button class="timeframe" type="button" data-range="w1"><b>1</b><span>S</span></button>
+      <button class="timeframe extra-mobile" type="button" data-range="mo1"><b>1</b><span>MESE</span></button>
+      <button class="timeframe extra-mobile" type="button" data-range="y1"><b>1</b><span>Y</span></button>
+      <button class="timeframe extra-mobile" type="button" data-range="all"><b>ALL</b></button>
+      <div class="timeframe-more-wrap">
+        <button class="timeframe-more-toggle" id="moreTimeframesToggle" type="button" aria-expanded="false"><b>MORE</b></button>
+        <div class="timeframe-more-menu" id="moreTimeframesMenu" aria-hidden="true">
+          <button class="timeframe-more-option" type="button" data-range="m30"><b>30</b><span>MIN</span></button>
+          <button class="timeframe-more-option" type="button" data-range="mo1"><b>1</b><span>MESE</span></button>
+          <button class="timeframe-more-option" type="button" data-range="y1"><b>1</b><span>Y</span></button>
+          <button class="timeframe-more-option" type="button" data-range="all"><b>ALL</b></button>
+        </div>
+      </div>
+    </nav>
+
+    <section class="terminal-shell" id="terminalShell" data-range-key="m1" aria-label="Grafico realtime Injective">
+      <div class="chart-stage">
+        <div class="chart-column">
+          <div class="plot" id="plot">
+            <canvas id="mainCanvas" aria-label="Grafico Live INJ USDT"></canvas>
+            <div class="loading" id="chartLoading"><i></i><span>SYNC</span></div>
+            <div class="chart-watermark" aria-hidden="true"><span>INJ</span><small id="watermarkRange">1 MIN</small></div>
+            <div class="ema-legend" aria-hidden="true"><span class="ema12">EMA 12</span><span class="ema26">EMA 26</span><span class="ema50">EMA 50</span><span class="ema200">EMA 200</span></div>
+          </div>
+          <section class="indicator-panel rsi-panel" id="rsiPanel" aria-label="RSI 14">
+            <div class="indicator-head"><span>RSI 14</span><strong id="rsiValue">—</strong></div>
+            <canvas id="rsiCanvas"></canvas>
+          </section>
+          <section class="indicator-panel macd-panel" id="macdPanel" aria-label="MACD 12 26 9">
+            <div class="indicator-head"><span>MACD 12 · 26 · 9</span><strong id="macdValue">—</strong></div>
+            <canvas id="macdCanvas"></canvas>
+          </section>
+        </div>
+        <div class="scale-column">
+          <aside class="price-scale" id="priceScale" aria-label="Scala prezzo">
+            <span class="scale-top" id="scaleTop">—</span><span class="scale-q3" id="scaleQ3">—</span><span class="scale-mid" id="scaleMid">—</span><span class="scale-q1" id="scaleQ1">—</span><span class="scale-bottom" id="scaleBottom">—</span>
+            <div class="scale-marker" id="scaleMarker"><i></i><strong id="scaleLive">—</strong></div>
+          </aside>
+          <aside class="indicator-scale rsi-scale" aria-hidden="true"><span>70</span><span>50</span><span>30</span></aside>
+          <aside class="indicator-scale macd-scale" aria-hidden="true"><span>+</span><span>0</span><span>−</span></aside>
+        </div>
+      </div>
+
+      <div class="market-strip" id="marketStrip">
+        <div><span>OPEN</span><strong id="statOpen">—</strong></div>
+        <div><span>HIGH</span><strong id="statHigh">—</strong></div>
+        <div><span>LOW</span><strong id="statLow">—</strong></div>
+        <div><span>CHANGE</span><strong class="neutral" id="statChange">—</strong></div>
+        <div class="last-update"><span>LAST TICK</span><strong id="lastTickText">—</strong></div>
+      </div>
+    </section>
+
+    <footer class="live-footer">
+      <small><b id="footerRange">1 MIN</b> · CANDLE LIVE · trascina sul grafico per leggere prezzo e ora</small>
+    </footer>
+  </main>
+  <script src="live-charts.js?v=15.99.54" defer></script>
+
+<script>
+(function(){
+  function loadInjLanguage(){
+    if (window.INJ_I18N || document.querySelector('script[data-inj-i18n]')) return;
+    var s=document.createElement('script');s.src='i18n.js?v=15.99.80';s.async=true;s.dataset.injI18n='1';
+    s.onerror=function(){s.remove();};document.body.appendChild(s);
+  }
+  window.addEventListener('load',function(){window.setTimeout(loadInjLanguage,120);},{once:true});
+})();
+</script>
+</body>
+</html>
