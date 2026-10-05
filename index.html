@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#051010">
+  <title>INJ NODE — Public Website</title>
+  <meta name="description" content="INJ NODE: capitale gestito live, trasparenza on-chain, staking e monitoraggio Injective.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=4.1.0">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header" id="top">
+      <div class="brand-wrap">
+        <a class="brand" href="#top" aria-label="INJ NODE home">
+          <span class="brand-mark">INJ</span>
+          <span class="brand-name">NODE</span>
+        </a>
+        <span class="brand-tag">Public website · live network view</span>
+      </div>
+
+      <nav class="top-nav" aria-label="Sezioni principali">
+        <a href="#capital">Capitale gestito</a>
+        <a href="#about">Cos'è INJ NODE</a>
+        <a href="#transparency">Trasparenza</a>
+        <a href="#platform">Piattaforma</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="header-ghost" href="#platform">Come si torna?</a>
+        <a class="header-cta" href="https://ivanbarbacini95-collab.github.io/INJ-VERSIONE-UFFICIALE/" target="_blank" rel="noopener noreferrer">Apri INJ NODE <span>↗</span></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="live-dot"></span>INJ NODE · PUBLIC WEBSITE</div>
+          <h1>Capitale gestito <span>live</span>.<br>Trasparenza <em>su Injective</em>.</h1>
+          <p>
+            Questo sito mostra solo ciò che conta davvero: capitale totale gestito, stato dello staking,
+            reward aggregati e la filosofia di trasparenza di INJ NODE. Nessun caos, nessun indirizzo esposto.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button-primary" href="#capital">Guarda i dati live</a>
+            <a class="button-secondary" href="https://ivanbarbacini95-collab.github.io/INJ-VERSIONE-UFFICIALE/" target="_blank" rel="noopener noreferrer">Apri la piattaforma ↗</a>
+          </div>
+
+          <div class="return-note">
+            <div class="return-note-icon">↗</div>
+            <div>
+              <strong>L'app si apre in una nuova scheda.</strong>
+              <span>Così questo sito rimane aperto e ci torni subito.</span>
+            </div>
+          </div>
+
+          <div class="trust-row">
+            <span>5 account aggregati</span>
+            <span>Dati letti dalla rete</span>
+            <span>Privacy by design</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-card">
+            <div class="visual-image" aria-hidden="true"></div>
+            <div class="visual-overlay-card overlay-a">
+              <small>CAPITALE GESTITO</small>
+              <strong id="heroInjTotal">— INJ</strong>
+              <span id="heroFiatTotal">Valore live on-chain</span>
+            </div>
+            <div class="visual-overlay-card overlay-b">
+              <small>ACCOUNT MONITORATI</small>
+              <strong>5</strong>
+              <span>Aggregati in tempo reale</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ticker" aria-label="Punti chiave">
+        <span>LIVE ON-CHAIN DATA</span>
+        <span>5 WALLETS AGGREGATI</span>
+        <span>NON-CUSTODIAL</span>
+        <span>INJECTIVE FOCUSED</span>
+        <span>PUBLIC CAPITAL VIEW</span>
+        <span>TRASPARENZA VERIFICABILE</span>
+      </section>
+
+      <section class="quick-links">
+        <a href="#capital"><b>01</b><span>Capitale</span><small>dato essenziale live</small></a>
+        <a href="#about"><b>02</b><span>Cos'è</span><small>cosa fa INJ NODE</small></a>
+        <a href="#transparency"><b>03</b><span>Trasparenza</span><small>come leggere il progetto</small></a>
+      </section>
+
+      <section class="capital-panel" id="capital">
+        <div class="capital-main">
+          <div class="capital-head">
+            <div>
+              <span class="section-kicker">CAPITALE GESTITO</span>
+              <h2>I numeri che contano.<br><em>Solo quelli.</em></h2>
+            </div>
+            <div class="panel-status" id="status"><i></i> LIVE</div>
+          </div>
+
+          <div class="main-number-wrap">
+            <div class="main-number">
+              <strong id="injTotal">—</strong>
+              <span>INJ</span>
+            </div>
+            <div class="main-subline">
+              <span id="fiatTotal">Valore live on-chain</span>
+              <span id="price">INJ / USDT —</span>
+            </div>
+          </div>
+
+          <div class="progress-line"><i id="loadLine"></i></div>
+        </div>
+
+        <div class="capital-grid">
+          <article>
+            <small>ACCOUNT MONITORATI</small>
+            <strong>5</strong>
+            <span>Totale account attivi dentro INJ NODE</span>
+          </article>
+          <article>
+            <small>IN STAKING</small>
+            <strong id="staked">—</strong>
+            <span id="stakeRatio">—</span>
+          </article>
+          <article>
+            <small>REWARD DISPONIBILI</small>
+            <strong id="rewards">—</strong>
+            <span>Aggiornamento on-chain</span>
+          </article>
+          <article>
+            <small>APPROCCIO</small>
+            <strong>Trasparente</strong>
+            <span>Dato pubblico aggregato, indirizzi non esposti</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="section about-section" id="about">
+        <div class="copy-block">
+          <span class="section-kicker">COS'È INJ NODE</span>
+          <h2>Una piattaforma costruita per <em>monitorare Injective</em>.</h2>
+          <p>
+            INJ NODE nasce per offrire una lettura immediata dell'ecosistema personale su Injective:
+            patrimonio, staking, reward, andamento e strumenti dedicati in un'unica esperienza pulita.
+          </p>
+        </div>
+
+        <div class="about-cards">
+          <article>
+            <b>01</b>
+            <h3>Capitale aggregato</h3>
+            <p>Una sola vista mostra il totale gestito sui wallet monitorati, con aggiornamento live.</p>
+          </article>
+          <article>
+            <b>02</b>
+            <h3>Staking e reward</h3>
+            <p>Delegazioni e reward vengono letti direttamente dalla rete per mantenere il quadro reale.</p>
+          </article>
+          <article>
+            <b>03</b>
+            <h3>Ambiente pro</h3>
+            <p>Grafici, monitoraggio e strumenti di supporto pensati per una gestione più evoluta.</p>
+          </article>
+          <article>
+            <b>04</b>
+            <h3>Focus sulla chiarezza</h3>
+            <p>La vetrina pubblica resta essenziale: mostra solo ciò che serve davvero capire del progetto.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section split-showcase">
+        <div class="showcase-visual" aria-hidden="true"></div>
+        <div class="showcase-copy">
+          <span class="section-kicker">PUBLIC VIEW</span>
+          <h2>Un sito più pulito.<br><em>Una piattaforma più profonda.</em></h2>
+          <p>
+            Il sito pubblico è la vetrina: mostra solidità, capitale gestito e trasparenza.
+            La piattaforma INJ NODE è invece il cuore operativo, dove si entra per lavorare con i dati in modo completo.
+          </p>
+          <ul class="showcase-points">
+            <li>Il sito pubblico spiega il progetto senza mostrare gli indirizzi.</li>
+            <li>La piattaforma completa si apre in nuova scheda.</li>
+            <li>Il capitale live deriva dai 5 account monitorati.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section transparency-section" id="transparency">
+        <div class="copy-block">
+          <span class="section-kicker">TRASPARENZA</span>
+          <h2>Verificabile, leggibile e <em>senza rumore</em>.</h2>
+          <p>
+            INJ NODE non promette trasparenza in modo vago: la traduce in un numero pubblico aggregato,
+            aggiornato dalla rete e presentato in modo comprensibile.
+          </p>
+        </div>
+
+        <div class="transparency-cards">
+          <article>
+            <span>ON-CHAIN</span>
+            <h3>Dati reali dalla rete</h3>
+            <p>Il totale viene calcolato live sommando disponibile, staking e reward dei cinque account monitorati.</p>
+          </article>
+          <article>
+            <span>PRIVACY</span>
+            <h3>Aggregato, non esposto</h3>
+            <p>Il visitatore vede il peso reale del progetto, senza accedere alla lista pubblica dei wallet.</p>
+          </article>
+          <article>
+            <span>NON-CUSTODIAL</span>
+            <h3>Monitoraggio, non custodia</h3>
+            <p>INJ NODE organizza e legge i dati; non custodisce fondi e non svolge attività di gestione per terzi.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section platform-section" id="platform">
+        <div class="platform-box">
+          <div class="platform-copy">
+            <span class="section-kicker">APRI INJ NODE</span>
+            <h2>Vuoi entrare nella piattaforma?<br><em>Qui non perdi il sito.</em></h2>
+            <p>
+              Il pulsante apre INJ NODE in una nuova scheda: la vetrina pubblica rimane aperta,
+              quindi puoi sempre tornare qui con un semplice clic sulla scheda del sito.
+            </p>
+            <div class="platform-tips">
+              <div><strong>1</strong><span>Clicchi su “Apri INJ NODE”</span></div>
+              <div><strong>2</strong><span>La piattaforma si apre in un'altra scheda</span></div>
+              <div><strong>3</strong><span>Il sito resta aperto e raggiungibile subito</span></div>
+            </div>
+          </div>
+          <div class="platform-actions">
+            <a class="button-primary" href="https://ivanbarbacini95-collab.github.io/INJ-VERSIONE-UFFICIALE/" target="_blank" rel="noopener noreferrer">Apri INJ NODE ↗</a>
+            <a class="button-secondary" href="#top">Torna su</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <div class="brand footer-logo"><span class="brand-mark">INJ</span><span class="brand-name">NODE</span></div>
+        <p>Injective portfolio intelligence · public website</p>
+      </div>
+      <div class="footer-links">
+        <a href="#capital">Capitale</a>
+        <a href="#about">Cos'è</a>
+        <a href="#transparency">Trasparenza</a>
+      </div>
+      <div class="footer-meta">© <span id="year"></span> INJ NODE</div>
+    </footer>
+  </div>
+
+  <script src="app.js?v=4.1.0"></script>
+</body>
+</html>
