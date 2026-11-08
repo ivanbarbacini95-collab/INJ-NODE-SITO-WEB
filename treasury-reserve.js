@@ -122,6 +122,21 @@
     if (data.error || !data.result) throw new Error('Solana RPC: ' + (data.error && data.error.message || 'risposta non valida'));
     return data.result;
   }
+  async function solanaTokenMetadata(mints) {
+    const results = new Map();
+    for (let offset=0;offset<mints.length;offset+=100) {
+      const group = mints.slice(offset,offset+100);
+      try {
+        const url = 'https://api.jup.ag/tokens/v2/search?query=' + encodeURIComponent(group.join(','));
+        const rows = await fetchData(url,null,4500);
+        if (!Array.isArray(rows)) continue;
+        for (const row of rows) {
+          if (group.includes(row.id)) results.set(row.id,row);
+        }
+      } catch (_) { /* Le quantità restano visibili anche senza metadati. */ }
+    }
+    return results;
+  }
   async function solanaBalances() {
     let result, error;
     for (const host of SOL_RPC) {
@@ -152,12 +167,28 @@
         byMint.set(mint,{ decimals, raw:(previous ? previous.raw : 0n) + BigInt(balance.amount) });
       }
     }
+    const metadata = await solanaTokenMetadata([
+      ...byMint.keys(),
+      ...(formatAmount(lamports,9).positive ? ['So11111111111111111111111111111111111111112'] : [])
+    ]);
+    const solMarket = metadata.get('So11111111111111111111111111111111111111112');
+    const solPrice = Number(solMarket && solMarket.usdPrice);
+    if (assets.length && solPrice > 0 && Number.isFinite(solPrice)) {
+      assets[0].usd = assets[0].amount.number * solPrice;
+    }
     let unknown = 0;
     for (const [mint, value] of byMint) {
       if (value.raw <= 0n) continue;
       const known = SOL_VERIFIED[mint];
-      const name = known ? known.name : 'Token ' + (++unknown);
-      const resultAsset = asset(name,known ? known.kind : 'token',known ? (known.short || known.name) : 'TOK',value.raw.toString(),value.decimals,known ? 'Token SPL verificato' : 'Token SPL · identificativo nascosto');
+      const info = metadata.get(mint);
+      const safeName = info && typeof info.name === 'string' && info.name.length <= 48 && !/inj1|[1-9A-HJ-NP-Za-km-z]{32,}/.test(info.name) ? info.name : '';
+      const safeSymbol = info && typeof info.symbol === 'string' && /^[a-zA-Z0-9._-]{1,12}$/.test(info.symbol) ? info.symbol : '';
+      const name = known ? known.name : safeName || ('Token ' + (++unknown));
+      const resultAsset = asset(name,known ? known.kind : 'token',known ? (known.short || known.name) : (safeSymbol || 'TOK'),value.raw.toString(),value.decimals,known ? 'Token ufficiale' : (info && info.isVerified ? 'Token SPL verificato' : 'Token SPL · identificativo nascosto'));
+      const tokenPrice = Number(info && info.usdPrice);
+      if (resultAsset.kind !== 'stable' && tokenPrice > 0 && Number.isFinite(tokenPrice) && resultAsset.amount.number != null) {
+        resultAsset.usd = resultAsset.amount.number * tokenPrice;
+      }
       assets.push(resultAsset);
     }
     return assets;
@@ -197,7 +228,11 @@
       left.append(node('small','',entry.notes));
       const right = node('div','reserve-asset-values');
       right.append(node('strong','',entry.amount.text));
-      right.append(node('small','',entry.kind === 'stable' && entry.usd != null ? '≈ ' + moneyUsd(entry.usd) + ' nominali' : entry.unformatted ? 'Quantità in unità base' : 'Saldo on-chain'));
+      right.append(node('small','',entry.kind === 'stable' && entry.usd != null
+        ? '≈ ' + moneyUsd(entry.usd) + ' nominali'
+        : entry.unformatted ? 'Quantità in unità base'
+        : entry.usd != null ? '≈ ' + moneyUsd(entry.usd) + ' stimati'
+        : 'Saldo on-chain'));
       row.append(icon,left,right);
       container.append(row);
     }
