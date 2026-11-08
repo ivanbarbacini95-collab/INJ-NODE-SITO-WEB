@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inj-node-v16.00.8-shell';
+const CACHE_NAME = 'inj-node-v16.00.9-shell';
 const APP_SHELL = [
   './',
   './index.html',
@@ -17,7 +17,9 @@ const APP_SHELL = [
   './command-center.js',
   './treasury.html',
   './treasury.css?v=16.00.8',
-  './treasury.js?v=16.00.8'
+  './treasury.js?v=16.00.8',
+  './treasury-reserve.css?v=16.00.9',
+  './treasury-reserve.js?v=16.00.9'
 ];
 
 self.addEventListener('install', (event) => {
