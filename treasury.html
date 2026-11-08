@@ -16,6 +16,7 @@
     } catch (_) {}
   </script>
   <link rel="stylesheet" href="./treasury.css?v=16.00.0">
+<link rel="stylesheet" href="./treasury-reserve.css?v=16.00.9">
 <script>document.addEventListener('DOMContentLoaded',()=>{const c=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();if(c)document.querySelector('meta[name="theme-color"]')?.setAttribute('content',c)},{once:true});</script>
 <link rel="stylesheet" href="viewport.css?v=16.00.0">
 <script defer src="viewport.js?v=16.00.0"></script>
@@ -188,10 +189,64 @@
           </div>
         </article>
       </section>
+      <section class="treasury-reserve treasury-panel" id="treasuryCashReserve" aria-label="Cash Reserve · panoramica degli asset">
+        <div class="reserve-heading">
+          <div class="reserve-heading-copy">
+            <span>LIQUIDITY OVERVIEW</span>
+            <h2>Cash Reserve</h2>
+            <p>Asset disponibili · Injective e Solana · sola lettura</p>
+          </div>
+          <button class="reserve-refresh" id="reserveRefresh" type="button" aria-label="Aggiorna i saldi delle due reti">Aggiorna</button>
+        </div>
+
+        <div class="reserve-overview" aria-live="polite">
+          <div class="reserve-summary-cell">
+            <span>STABLECOIN VERIFICATE</span>
+            <strong id="reserveStableUsd">—</strong>
+            <small>Valore nominale indicativo USD</small>
+          </div>
+          <div class="reserve-summary-cell">
+            <span>ASSET PRESENTI</span>
+            <strong id="reserveAssetCount">—</strong>
+            <small>Token e coin con saldo positivo</small>
+          </div>
+          <div class="reserve-summary-cell">
+            <span>ULTIMA LETTURA</span>
+            <strong id="reserveUpdatedAt">In attesa</strong>
+            <small id="reserveCoverage">Sincronizzazione delle reti</small>
+          </div>
+        </div>
+
+        <div class="reserve-networks">
+          <article class="reserve-network" aria-label="Asset rete Injective">
+            <header class="reserve-network-header">
+              <span class="reserve-network-mark" aria-hidden="true">I</span>
+              <div class="reserve-network-title"><span>NETWORK</span><h3>Injective</h3></div>
+              <small id="reserveInjectiveStatus" class="reserve-network-state">SYNC</small>
+            </header>
+            <div id="reserveInjectiveAssets" class="reserve-asset-list" aria-live="polite">
+              <p class="reserve-empty">Caricamento saldi on-chain…</p>
+            </div>
+          </article>
+
+          <article class="reserve-network" aria-label="Asset rete Solana">
+            <header class="reserve-network-header">
+              <span class="reserve-network-mark solana" aria-hidden="true">S</span>
+              <div class="reserve-network-title"><span>NETWORK</span><h3>Solana</h3></div>
+              <small id="reserveSolanaStatus" class="reserve-network-state">SYNC</small>
+            </header>
+            <div id="reserveSolanaAssets" class="reserve-asset-list" aria-live="polite">
+              <p class="reserve-empty">Caricamento saldi on-chain…</p>
+            </div>
+          </article>
+        </div>
+        <p class="reserve-footnote">Il riepilogo stablecoin include solo USDC nativo Circle su Injective e USDC/USDT ufficiali su Solana. Gli altri token vengono elencati separatamente, senza presumere un prezzo. Nessun indirizzo è mostrato nell’interfaccia.</p>
+      </section>
     <footer class="inj-long-page-signature" aria-label="INJ Node signature">INJ NODE · by IB</footer>
 </main>
   </div>
   <script src="./treasury.js?v=16.00.0" defer></script>
+  <script src="./treasury-reserve.js?v=16.00.9" defer></script>
 
 <script>
 (function(){
