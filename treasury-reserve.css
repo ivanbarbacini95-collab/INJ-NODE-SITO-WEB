@@ -1,0 +1,172 @@
+/* Cash Reserve · responsive watch-only asset inventory */
+.treasury-reserve {
+  display:grid;
+  gap:18px;
+  margin-top:16px;
+  padding:clamp(16px,2.4vw,24px);
+}
+.reserve-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.reserve-heading-copy>span,
+.reserve-summary-cell>span,
+.reserve-network-title>span {
+  display:block;
+  color:var(--muted);
+  font-size:.52rem;
+  letter-spacing:.14em;
+  font-weight:900;
+}
+.reserve-heading-copy h2 {
+  margin:5px 0 5px;
+  color:var(--text);
+  font-size:clamp(1.1rem,2.5vw,1.5rem);
+  font-weight:950;
+  line-height:1.1;
+}
+.reserve-heading-copy p {
+  margin:0;
+  color:var(--muted-strong);
+  font-size:.72rem;
+  line-height:1.5;
+}
+.reserve-refresh {
+  padding:10px 15px;
+  border:1px solid color-mix(in srgb,var(--accent) 48%,var(--line));
+  border-radius:12px;
+  background:color-mix(in srgb,var(--accent) 10%,var(--surface));
+  color:var(--text);
+  cursor:pointer;
+  font:inherit;
+  font-size:.7rem;
+  font-weight:900;
+  white-space:nowrap;
+  transition:background .15s ease,border-color .15s ease;
+}
+.reserve-refresh:hover { background:color-mix(in srgb,var(--accent) 17%,var(--surface)); }
+.reserve-refresh:disabled { opacity:.6;cursor:wait; }
+.reserve-refresh:focus-visible {outline:2px solid var(--accent);outline-offset:3px}
+.reserve-overview {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.reserve-summary-cell {
+  display:grid;
+  align-content:center;
+  gap:7px;
+  min-height:90px;
+  min-width:0;
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:color-mix(in srgb,var(--bg) 25%,var(--surface));
+}
+.reserve-summary-cell>strong {
+  color:var(--text);
+  font-size:clamp(1rem,2vw,1.36rem);
+  letter-spacing:-.035em;
+  font-weight:950;
+  font-variant-numeric:tabular-nums;
+  overflow-wrap:anywhere;
+}
+.reserve-summary-cell>small {color:var(--muted-strong);font-size:.63rem;line-height:1.4}
+.reserve-summary-cell:first-child>strong {color:var(--up)}
+.reserve-networks {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.reserve-network {
+  display:grid;
+  align-content:start;
+  gap:10px;
+  min-width:0;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:color-mix(in srgb,var(--surface) 92%,transparent);
+}
+.reserve-network-header {display:flex;align-items:center;gap:10px;min-width:0}
+.reserve-network-mark {
+  display:grid;
+  flex:0 0 36px;
+  place-items:center;
+  width:36px;
+  height:36px;
+  border-radius:11px;
+  border:1px solid color-mix(in srgb,var(--accent) 33%,var(--line));
+  background:color-mix(in srgb,var(--accent) 11%,transparent);
+  color:var(--accent);
+  font-size:1rem;
+  font-weight:950;
+}
+.reserve-network-mark.solana {
+  border-color:color-mix(in srgb,var(--up) 38%,var(--line));
+  background:color-mix(in srgb,var(--up) 8%,transparent);
+  color:var(--up);
+}
+.reserve-network-title {flex:1;min-width:0}
+.reserve-network-title h3 {margin:2px 0 0;color:var(--text);font-size:.92rem;font-weight:900}
+.reserve-network-state {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:.51rem;
+  font-weight:950;
+  letter-spacing:.07em;
+  color:var(--muted);
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+.reserve-network-state::before {
+  content:"";display:inline-block;flex:0 0 6px;width:6px;height:6px;border-radius:50%;
+  background:var(--muted);
+}
+.reserve-network-state.is-live{color:var(--up)}
+.reserve-network-state.is-live::before{background:var(--up)}
+.reserve-network-state.is-error{color:var(--down)}
+.reserve-network-state.is-error::before{background:var(--down)}
+.reserve-asset-list {display:grid;min-width:0}
+.reserve-asset-row {
+  display:flex;align-items:center;gap:10px;
+  min-width:0;padding:13px 0;
+  border-top:1px solid var(--line);
+}
+.reserve-asset-icon {
+  display:grid;flex:0 0 34px;place-items:center;
+  height:34px;width:34px;border:1px solid var(--line);
+  border-radius:10px;background:color-mix(in srgb,var(--bg) 32%,var(--surface));
+  color:var(--muted-strong);font-size:.56rem;font-weight:950;letter-spacing:-.025em;
+}
+.reserve-asset-icon.reserve-stable {
+  border-color:color-mix(in srgb,var(--up) 27%,var(--line));
+  background:color-mix(in srgb,var(--up) 8%,transparent);
+  color:var(--up);
+}
+.reserve-asset-name {min-width:0;flex:1;display:grid;gap:3px}
+.reserve-asset-name strong {color:var(--text);font-size:.76rem;font-weight:900;overflow-wrap:anywhere}
+.reserve-asset-name small {color:var(--muted);font-size:.57rem;line-height:1.3}
+.reserve-asset-values {min-width:0;max-width:48%;display:grid;gap:3px;justify-items:end;text-align:right}
+.reserve-asset-values strong {color:var(--text);font-size:.76rem;font-weight:950;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.reserve-asset-values small {color:var(--muted-strong);font-size:.57rem;line-height:1.3}
+.reserve-empty {margin:0;padding:20px 2px;color:var(--muted-strong);font-size:.72rem;line-height:1.5}
+.reserve-footnote {margin:0;color:var(--muted);font-size:.62rem;line-height:1.5}
+@media(max-width:850px){
+  .reserve-networks{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .treasury-reserve{padding:14px;gap:14px}
+  .reserve-overview{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .reserve-summary-cell:last-child{grid-column:1/-1}
+  .reserve-summary-cell{min-height:80px;padding:12px}
+  .reserve-summary-cell>strong{font-size:1.04rem}
+  .reserve-network{padding:12px}
+  .reserve-network-state{font-size:.45rem}
+  .reserve-asset-row{gap:8px}
+  .reserve-asset-name strong,.reserve-asset-values strong{font-size:.72rem}
+}
+@media(max-width:370px){
+  .reserve-overview{grid-template-columns:1fr}
+  .reserve-summary-cell:last-child{grid-column:auto}
+}
